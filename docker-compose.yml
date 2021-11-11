@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  instagram-database:
+    image: mysql:8.0
+    environment: 
+      MYSQL_ROOT_PASSWORD: '1234'
+    container_name: instagram-db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+  
