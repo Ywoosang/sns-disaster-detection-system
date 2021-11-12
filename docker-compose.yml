@@ -4,10 +4,26 @@ services:
     image: mysql:8.0
     environment: 
       MYSQL_ROOT_PASSWORD: '1234'
-    container_name: instagram-db
+    container_name: instagram_db
+    networks:
+      - khuthon_net
     ports:
       - 3306:3306
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
   
+  instagram-service:
+    # image: test:v3
+    image: instagram-service:v1
+    container_name: instagram-service
+    ports:
+      - 8000:8000
+    depends_on: 
+      - instagram-database
+    networks:
+      - khuthon_net
+
+networks:
+  khuthon_net:
+
