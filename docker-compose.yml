@@ -2,19 +2,17 @@ version: '3.7'
 services:
   instagram-database:
     image: mysql:8.0
-    environment: 
-      MYSQL_ROOT_PASSWORD: '1234'
-    container_name: instagram_db
+    container_name: instagram-db
     networks:
       - khuthon_net
     ports:
       - 3306:3306
+    environment: 
+      - MYSQL_ROOT_PASSWORD='1234'
     volumes:
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
-  
   instagram-service:
-    # image: test:v3
     image: instagram-service:v1
     container_name: instagram-service
     ports:
@@ -23,6 +21,18 @@ services:
       - instagram-database
     networks:
       - khuthon_net
+  mail-service:
+    image: mail-service:v1
+    env_file: ./.env
+    environment:
+      - GMAIL=$GMAIL
+      - GMAIL_PASSWORD=$GMAIL_PASSWORD
+    container_name: mail-service
+    ports:
+      - 3000:3000
+    networks:
+      - khuthon_net
+    command: ["npm","start"]
 
 networks:
   khuthon_net:
