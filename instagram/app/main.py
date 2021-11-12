@@ -38,31 +38,36 @@ class InstagramCrawler:
         """
         로그인 상태의 드라이버 생성
         """
-        chromedriver = "./chromedriver"
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        options.add_argument('window-size=1920x1080')
-        options.add_argument("disable-gpu")
-        options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
-        options.add_argument("lang=ko_KR")
-        driver = webdriver.Chrome(chromedriver,chrome_options=options)
-        driver
-        userId = 'test_ywoosang'
-        userPassword = 'test1234'        
-        driver.get('https://www.instagram.com/accounts/login')
-        WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
-        )
-        time.sleep(2)
-        id_section = driver.find_element_by_name('username')
-        id_section.clear()
-        id_section.send_keys(userId)
-        pw_section = driver.find_element_by_name('password')
-        pw_section.clear()
-        pw_section.send_keys(userPassword)
-        pw_section.submit()
-        time.sleep(3)
-        self.driver = driver
+        try:
+            chromedriver = "/usr/src/chrome/chromedriver"
+            options = webdriver.ChromeOptions()
+            options.add_argument('headless')
+            options.add_argument('--no-sandbox')
+            options.add_argument('window-size=1920x1080')
+            options.add_argument('--disable-dev-shm-usage')
+            options.add_argument("disable-gpu")
+            options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+            options.add_argument("lang=ko_KR")
+            driver = webdriver.Chrome(chromedriver,options=options)
+            userId = '<your-instagram-id>'
+            userPassword = '<your-instagram-password>'   
+            driver.get('https://www.instagram.com/accounts/login')
+            WebDriverWait(driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
+            )
+            time.sleep(2)
+            id_section = driver.find_element_by_name('username')
+            id_section.clear()
+            id_section.send_keys(userId)
+            pw_section = driver.find_element_by_name('password')
+            pw_section.clear()
+            pw_section.send_keys(userPassword)
+            pw_section.submit()
+            time.sleep(3)
+            self.driver = driver
+        except  Exception as error:
+            print(error)
+            raise Exception('driver setting error')
 
     def getUrl(self,word):
         """
@@ -135,20 +140,21 @@ class InstagramCrawler:
                 time.sleep(1)
             except Exception as error:
                     print(error)
-                    pass
+                    self.driver.close()
+                    return;
         print(response)
         return response
 
-@app.get('/api/instagram/data/')
+@app.get('/api/instagram/data')
 async def connectionTest():
     try:
         db = pymysql.connect(
-            host="127.0.0.1",
+            host="instagram-database",
             port=3306,
             user="root",
             passwd="1234",
             db="Instagram",
-            charset="utf8mb4"  
+            charset="utf8mb4"
         )    
         cursor = db.cursor()
         sql = """
@@ -175,66 +181,61 @@ async def connectionTest():
     except Exception as error:
         print(error)
         return {
-            "msg" : "connectin error"
+            "error" : "connectin error"
         }
 
 
-@app.get('/api/instagram/data/1')
+@app.post('/api/instagram/data')
 async def postData():
-    
-    db = pymysql.connect(
-        host="127.0.0.1",
-        port=3306,
-        user="root",
-        passwd="1234",
-        db="Instagram",
-        charset="utf8mb4"  
-    )  
-    cursor = db.cursor()
-    sql = """
-    SELECT MAX(date) FROM Post;
-    """
-    cursor.execute(sql) 
-    row = cursor.fetchone()
-    print('--------------------------------------------')
-    print(row)
-    print('--------------------------------------------')
-    time = None
-    if row[0] is None:
-        time = '2021-11-10-11-10'
-    else:
-        time = row[0] 
-    print('--------------------------------------------')
-    print(time)
-    print('--------------------------------------------')
-    keywords = ['폭설','산불','교통사고','붕괴','폭발','화재']
-    date = time.split('-')
-    crawler= InstagramCrawler(keywords,list(map(lambda x: int(x),date)))
-    response = crawler.run()
-    print(response)
-   
-    for post in response:
-        if post["date"] <= time:
-            continue
-        sql = f"""
-        INSERT INTO Post (class,link,date)
-        VALUES ('{post["class"]}','{post["link"]}','{post["date"]}');
+    try:
+        db = pymysql.connect(
+            host="instagram-database",
+            port=3306,
+            user="root",
+            passwd="1234",
+            db="Instagram",
+            charset="utf8mb4"  
+        )  
+        cursor = db.cursor()
+        sql = """
+        SELECT MAX(date) FROM Post;
         """
-        cursor.execute(sql)
-        id = cursor.lastrowid
-        for comment in post["comments"]:
+        cursor.execute(sql) 
+        row = cursor.fetchone()
+        time = None
+        if row[0] is None:
+            time = '2021-11-10-11-10'
+        else:
+            time = row[0] 
+        keywords = ['산불','교통사고','붕괴','폭발','화재']
+        date = time.split('-')
+        crawler= InstagramCrawler(keywords,list(map(lambda x: int(x),date)))
+        response = crawler.run()
+        for post in response:
+            if post["date"] <= time:
+                continue
             sql = f"""
-            INSERT INTO Comment (postId,content)
-            VALUES ({id},'{comment}');
+            INSERT INTO Post (class,link,date)
+            VALUES ('{post["class"]}','{post["link"]}','{post["date"]}');
             """
             cursor.execute(sql)
-    db.commit()
-    db.close()
-    return {
-        "msg" : "ok"
-    }
-
-
+            id = cursor.lastrowid
+            for comment in post["comments"]:
+                sql = f"""
+                INSERT INTO Comment (postId,content)
+                VALUES ({id},'{comment}');
+                """
+                cursor.execute(sql)
+        db.commit()
+        db.close()
+        return {
+            "msg" : "ok"
+        }
+    except Exception as error:
+        print(error)
+        return {
+            "error" : error
+        }
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000) 
