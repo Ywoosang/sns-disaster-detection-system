@@ -64,7 +64,7 @@ app.get('/api/naver/data/1',async function(req,res){
 
     }
 
-    await res.send(response)
+    res.send(response)
 
 
 });
@@ -93,6 +93,6 @@ app.get('/api/naver/data/',async function(req,res){
 
 });
 
-app.listen(3001, function (){
+app.listen(process.env.NAVER_PORT, function (){
     console.log('app listening on port 3001!');
 });
