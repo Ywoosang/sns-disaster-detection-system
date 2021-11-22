@@ -1,9 +1,6 @@
 const naverData= require('../model/naverData.js');
 const mongodb = require('../src/mongodb')
-var mongoose = require('mongoose');
-
-
-
+const mongoose = require('mongoose');
 
 var db = mongodb.dbsetting(function(){});
 
