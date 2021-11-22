@@ -96,6 +96,6 @@ app.get('/api/twitter/data/',async function(req,res){
  });
 
 
-app.listen(3001, function (){
-    console.log('app listening on port 3001!');
+app.listen(3002, function (){
+    console.log('app listening on port 3002!');
 });
