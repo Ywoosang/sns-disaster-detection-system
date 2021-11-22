@@ -1,8 +1,9 @@
 
 var axios = require('axios');
-var uri =  'https://openapi.naver.com/v1/search/blog'
-var client_id = 'C5MaxUgFGNkfX1i_zIgH';
-var client_secret = 'Em8Wzb4_pa';
+require('dotenv').config()
+var uri =  'https://openapi.naver.com/v1/search/blog';
+var client_id =process.env.NAVER_CLIENT;
+var client_secret = process.env.NAVER_CLIENT_SECRET;
 
 //var recent = ""
 
