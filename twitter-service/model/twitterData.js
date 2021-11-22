@@ -1,6 +1,7 @@
 var axios = require('axios');
+require('dotenv').config()
 var uri = 'http://api.twitter.com/2/tweets/search/recent'
-var bearer_token = 'AAAAAAAAAAAAAAAAAAAAAMbAVgEAAAAA0Ifyo8%2FQiol4LQZGJJMSCfOfXno%3D0dYaH0EposblJXmk5Rsui4jiid8BIYHW6HasILJED9BgpOyoX1';
+var bearer_token = process.env.TWITTER_TOKEN;
 
 async function getTwitterData(keyword){
     const options = {
