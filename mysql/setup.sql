@@ -14,7 +14,7 @@ CREATE TABLE Post (
     link VARCHAR(300) NOT NULL,
     date VARCHAR(50) NOT NULL,
     PRIMARY KEY(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE Comment (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -22,4 +22,4 @@ CREATE TABLE Comment (
     content TEXT,
     FOREIGN KEY (postId) REFERENCES Post(id) ON DELETE CASCADE,
     PRIMARY KEY(id)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 
