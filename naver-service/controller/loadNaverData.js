@@ -9,32 +9,36 @@ exports.upload = function(keyword,Class){
     .then((res)=>{
         //console.log(res);
         mongodb.data.set('collection', 'naver_data');
-        const DBdata = mongoose.model("naver_data", mongodb.data);
+        var DBdata = mongoose.model("naver_data", mongodb.data);
         
         db.collection('naver_data').createIndex( { content: 1 }, { unique: true } )
         db.collection('naver_data').findOne({}, {sort:{$natural:-1}})
         .then(async (lastData)=>{
             console.log(lastData)
-            for(let i = 0 ; i<res.length;i++){  
+            for(var i = 0 ; i<res.length;i++){  
                 /*              
                 if(lastData != null &&lastData.content == res[i][0]){
                     console.log("break at "+i.toString())
                     break;
                 }
                 */
-                const Dte = new Date()
-                const korDte = new Date(Dte.getTime()+ 9 * 60 * 60 * 1000)
-                const newData = new DBdata({
+                var Dte = new Date()
+                var korDte = new Date(Dte.getTime()+ 9 * 60 * 60 * 1000)
+                var newData = new DBdata({
                     content : res[i][0],
                     link : res[i][1],
                     date : res[i][2],
                     type: keyword,
                     timestamp: korDte.toISOString()
+            
                 });               
+                
                 await newData.save().catch(error => { 
                     console.log(error);
                 });
+                
             }
+            
         })
         .then(()=>{    
             mongoose.disconnect();
@@ -42,7 +46,9 @@ exports.upload = function(keyword,Class){
         .then(()=>{
             console.log("전송 완료")
         })
+        
     })
+    
     .catch(error => { 
         console.log(error);
     });

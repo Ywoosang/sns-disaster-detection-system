@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var dbURL = 'mongodb://naver-db:27017/moai'
+var dbURL = 'mongodb://localhost:27017/moai'
 
 exports.dbsetting = function(){
     mongoose.connect(dbURL);
