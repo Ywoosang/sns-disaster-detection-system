@@ -1,9 +1,9 @@
 const express = require('express');
-// const mongoose = require('mongoose');
 const load_twitter = require('./controller/loadTwitterData.js')
 const mongodb = require('./mongodb');
 const toISO = require('./toISO');
 const app = express();
+require('dotenv').config()
 const db = mongodb.dbsetting()
 /*
 - db 에 아무것도 없는 경우 가장 마지막 date 에 넣어진 것이 없으면 2021-11-11-11-11 이후 데이터를 저장
@@ -73,6 +73,6 @@ app.get('/api/twitter/data/',async function(req,res){
     res.send(response)
 });
 
-app.listen(3002, function (){
+app.listen(process.env.TWITTER_PORT, function (){
     console.log('app listening on port 3002!');
 });
