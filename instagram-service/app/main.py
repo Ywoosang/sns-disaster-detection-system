@@ -4,15 +4,15 @@ from fastapi import Body, FastAPI, status
 from fastapi.responses import JSONResponse
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys 
-from selenium.webdriver.support.ui import WebDriverWait 
-from selenium.webdriver.support import expected_conditions as EC 
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 from typing import List
 import pymysql
-from fastapi.middleware.cors import CORSMiddleware 
- 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -22,9 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 class InstagramCrawler:
-    def __init__(self,keywords:List[str],requestTime: List[int]):
+    def __init__(self, keywords: List[str], requestTime: List[int]):
         self.keywords = keywords
         self.requestTime = requestTime
 
@@ -37,7 +36,7 @@ class InstagramCrawler:
             response = self.getComments()
             self.driver.close()
             return response
-        except  Exception as error:
+        except Exception as error:
             self.driver.close()
             print(error)
             raise Exception('Chrome driver setting error')
@@ -54,15 +53,17 @@ class InstagramCrawler:
             options.add_argument('window-size=1920x1080')
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("disable-gpu")
-            options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+            options.add_argument(
+                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
             options.add_argument("lang=ko_KR")
-            driver = webdriver.Chrome(chromedriver,options=options)
+            driver = webdriver.Chrome(chromedriver, options=options)
             # 아이디, 패스워드
             userId = 'test_ywoosang'
-            userPassword = 'test1234'  
+            userPassword = 'test1234'
+            # os.getenv
             driver.get('https://www.instagram.com/accounts/login')
             WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
+                EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
             )
             time.sleep(2)
             id_section = driver.find_element_by_name('username')
@@ -74,27 +75,27 @@ class InstagramCrawler:
             pw_section.submit()
             time.sleep(3)
             self.driver = driver
-        except  Exception as error:
+        except Exception as error:
             print(error)
             raise Exception('driver setting error')
 
-    def getUrl(self,word):
+    def getUrl(self, word):
         """
         검색 키워드로 url 생성
         """
         url = f'https://www.instagram.com/explore/tags/{word}'
         return url
 
-    def calcTime(self,time) -> List[int]:
+    def calcTime(self, time) -> List[int]:
         """
         시간 문자열을 받아 년,월,일,시,분 을 리스트로 만들어 반환
         """
-        [year,month] = time.split('-')[:2]
+        [year, month] = time.split('-')[:2]
         day = time.split('-')[-1].split('T')[0]
-        [hour,minute] = time.split('-')[-1].split('T')[-1].split(':')[:2]
-        return [year,month,day,hour,minute]
+        [hour, minute] = time.split('-')[-1].split('T')[-1].split(':')[:2]
+        return [year, month, day, hour, minute]
 
-    def checkTimeValidation(self,requestTime:List[int],postTime: List[int]):
+    def checkTimeValidation(self, requestTime: List[int], postTime: List[int]):
         """
         게시물 작성 시간이 요청 시간 이후인지 여부 반환
         ex) 요청시간이 2021 11 10 00 00 이라면 게시물 작성 시간이 그 이후인지
@@ -105,38 +106,65 @@ class InstagramCrawler:
             elif requestTime[index] < postTime[index]:
                 return True
         return False
-    
+
     def getComments(self):
         # 모든 키워드 탐색 결과
         response = []
         for keyword in self.keywords:
+
+            # 각각 MAX(DATE) 를 찾아서 그 이후 것들을 가져옴
+            # 데이터베이스 WHERE 문으로 해당하는 MAX(DATE 찾기)
+            #  try:
+            #     if post["date"] <= time:
+            #         continue
+            #     sql = f"""
+            #     INSERT INTO Post (class,link,date)
+            #     VALUES ('{post["class"]}','{post["link"]}','{post["date"]}');
+            #     """
+            #     cursor.execute(sql)
+            #     id = cursor.lastrowid
+            #     for comment in post["comments"]:
+            #         sql = f"""
+            #         INSERT INTO Comment (postId,content)
+            #         VALUES ({id},'{comment}');
+            #         """
+            #         # pymysql 
+            #         cursor.execute(sql)
+            # except:
+            #     pass
+
             try:
                 url = self.getUrl(keyword)
                 self.driver.get(url)
-                WebDriverWait(self.driver,10).until(
+                WebDriverWait(self.driver, 10).until(
                     EC.presence_of_element_located((By.CLASS_NAME, "Nnq7C"))
                 )
-                self.driver.find_element_by_xpath('//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div[1]').click()
-                condition = True 
+                self.driver.find_element_by_xpath(
+                    '//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div[1]').click()
+                condition = True
                 while condition:
                     post = {
-                        "class":keyword,
+                        "class": keyword,
                         "link": "",
-                        "comments" : [],
-                        "date" : ""
+                        "comments": [],
+                        "date": ""
                     }
                     WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located((By.CLASS_NAME, "EtaWk"))
+                        EC.presence_of_element_located(
+                            (By.CLASS_NAME, "EtaWk"))
                     )
-                    nextButton = self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/div/div/div[2]/button')
+                    nextButton = self.driver.find_element_by_xpath(
+                        '/html/body/div[6]/div[1]/div/div/div[2]/button')
                     html = self.driver.page_source
                     soup = BeautifulSoup(html, 'html.parser')
                     comments = soup.select('ul.Mr508 div.C4VMK span')
                     post["link"] = self.driver.current_url
                     # 포스팅 작성 시간 조회
                     postTime = self.calcTime(soup.find('time')['datetime'])
+                    # 2021-08-17-11-11
                     post["date"] = '-'.join(postTime)
-                    condition = self.checkTimeValidation(self.requestTime,list(map(lambda x: int(x),postTime)))
+                    condition = self.checkTimeValidation(
+                        self.requestTime, list(map(lambda x: int(x), postTime)))
                     # 댓글 조회
                     for comment in comments:
                         print(comment.string)
@@ -144,15 +172,19 @@ class InstagramCrawler:
                     if(len(post["comments"])):
                         print(post)
                         response.append(post)
+                        #  {'class': '폭발', 'link': 'https://www.instagram.com/p/CWk9QWwDYJM/', 'comments': ['j_wonma', '😍😍 역시 에이스는 올바른 화풀이법 ㅋㅋㅋ', 'wodfriendskorea', '고생하셨습니다 👏👏', 'tooth_dkdk', 'ㅋㅋㅋㅋㅋㅋ저희가 시간 조금만 더썻으면 20개 언브로큰이었나용..?ㅎㅋㅋ', 's.in_soo', 'ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ저도 그래서 바머가 잘된듯요😂😂', '0hohoho0', '오 ㅋㅋ👏👏👏👏👏', '_m_ssang', '행님 고생하셨습니다👏👏👏👏', 'sorossfit', '고생하셨습니다!! 역시 잘하십니당🔥', 'cf_bum', '잘해~~김사장', 'byeol_papa', 'ㅋㅋ 노총각 이렇게라도 풀어야져 잘했네'], 'date': '2021-11-22-12-04'}
+                        # 여기서 각 Post 마다 Insert 
+                        # 각 class 마다 최근 시간 이후 크롤링
                     nextButton.click()
                 # 현재 키워드 탐색 결과 추가
                 time.sleep(1)
             except Exception as error:
-                    print(error)
-                    self.driver.close()
-                    return;
+                print(error)
+                self.driver.close()
+                return
         print(response)
         return response
+
 
 @app.get('/api/instagram/data')
 async def connectionTest():
@@ -164,7 +196,7 @@ async def connectionTest():
             passwd="1234",
             db="Instagram",
             charset="utf8mb4"
-        )    
+        )
         cursor = db.cursor()
         sql = """
         SELECT P.date,P.link,P.class,C.content FROM Post P 
@@ -181,19 +213,19 @@ async def connectionTest():
             response.append({
                 "date": data[0],
                 "link": data[1],
-                "type":data[2],
-                "content": data[3] 
+                "type": data[2],
+                "content": data[3]
             })
         return {
-            "data" : response,
+            "data": response,
         }
     except Exception as error:
         print(error)
         return {
-            "error" : "connectin error"
+            "error": "connectin error"
         }
 
-
+# 스케줄러 같은거 를 이용해서 10 분에 한번씩 크롤링 코드를 실행해서 업데이트 하도록
 @app.post('/api/instagram/data')
 async def postData():
     try:
@@ -203,22 +235,25 @@ async def postData():
             user="root",
             passwd="1234",
             db="Instagram",
-            charset="utf8mb4"  
-        )  
+            charset="utf8mb4"
+        )
         cursor = db.cursor()
+        # 가장 최신 포스트 시간 가져오기
         sql = """
         SELECT MAX(date) FROM Post;
         """
-        cursor.execute(sql) 
+        cursor.execute(sql)
         row = cursor.fetchone()
         time = None
         if row[0] is None:
+            # DB 에 아무 데이터도 없을 때 하루 전날로 설정하는 코드
+            # datetime
             time = '2021-11-22-11-10'
         else:
             time = row[0] 
         keywords = ['산불','교통사고','붕괴','폭발','화재']
         date = time.split('-')
-        crawler= InstagramCrawler(keywords,list(map(lambda x: int(x),date)))
+        crawler = InstagramCrawler(keywords, list(map(lambda x: int(x), date)))
         response = crawler.run()
         for post in response:
             try:
@@ -235,20 +270,21 @@ async def postData():
                     INSERT INTO Comment (postId,content)
                     VALUES ({id},'{comment}');
                     """
+                    # pymysql 
                     cursor.execute(sql)
             except:
                 pass
-                     
+
         db.commit()
         db.close()
         return {
-            "msg" : "ok"
+            "msg": "ok"
         }
     except Exception as error:
         print(error)
         return {
-            "error" : error
+            "error": error
         }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
