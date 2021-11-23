@@ -12,10 +12,8 @@ async function getTwitterData(keyword){
             'tweet.fields' : 'created_at',
             expansions : 'author_id'
         },
-        
-      }
+    }
     
-
     const result2 = await axios.get(uri,options);
     console.log(result2.data)
   
@@ -32,7 +30,7 @@ exports.getTotalData = async function (keyword){
 
     
     
-    for (var i = 0 ; i<Object.keys(data).length;i++){
+    for (const i = 0 ; i<Object.keys(data).length;i++){
        
         temp.push(data[i].text.replace('\n',""));
         temp.push('twitter.com/'+data[i].author_id+'/status/'+data[i].id);
