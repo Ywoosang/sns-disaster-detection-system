@@ -1,0 +1,7 @@
+venv/
+dist/
+node_modules/
+chromedriver
+.env
+volumes/
+nlp-service/

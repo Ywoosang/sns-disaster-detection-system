@@ -1,0 +1,25 @@
+DROP DATABASE IF EXISTS Instagram;
+CREATE DATABASE Instagram DEFAULT  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE Instagram;
+ 
+DROP TABLE IF EXISTS Post;
+DROP TABLE IF EXISTS Comment;
+
+SET GLOBAL time_zone='Asia/Seoul';
+set time_zone='Asia/Seoul';
+
+CREATE TABLE Post (
+    id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    class VARCHAR(20) NOT NULL,
+    link VARCHAR(300) NOT NULL,
+    date VARCHAR(50) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Comment (
+    id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+    postId INT(11) UNSIGNED NOT NULL,
+    content TEXT,
+    FOREIGN KEY (postId) REFERENCES Post(id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
