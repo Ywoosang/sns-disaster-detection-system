@@ -1,8 +1,9 @@
 const axios = require('axios');
 const uri = 'http://api.twitter.com/2/tweets/search/recent'
-const bearer_token = process.env.TWITTER_TOKEN;
+const bearer_token = 'AAAAAAAAAAAAAAAAAAAAAMbAVgEAAAAA0Ifyo8%2FQiol4LQZGJJMSCfOfXno%3D0dYaH0EposblJXmk5Rsui4jiid8BIYHW6HasILJED9BgpOyoX1'//process.env.TWITTER_TOKEN;
 require('dotenv').config()
 
+console.log('토큰'+bearer_token)
 async function getTwitterData(keyword) {
     const options = {
         headers: { 'Authorization': 'bearer ' + bearer_token },
@@ -21,7 +22,7 @@ async function getTwitterData(keyword) {
 
 exports.getTotalData = async function (keyword) {
     try{
-        const data = await getTwitterData(keyword);
+        var data = await getTwitterData(keyword);
         const res = []
         for (let i = 0; i < Object.keys(data).length; i++) {
             const temp = []
@@ -32,6 +33,6 @@ exports.getTotalData = async function (keyword) {
         };
         return res;
     }catch(error){
-        console.log(error);
+        //console.log(error);
     }
 };
