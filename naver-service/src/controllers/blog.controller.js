@@ -19,10 +19,8 @@ class BlogController{
 
     async getBlogData(req,res,next){
         try{
-            // http://localhost:3001/api/naver/data?start=2021-11-24-01-01&end=2021-11-25-03-50 
             const startDate = req.query.start;
             const endDate = req.query.end;
-            // http://localhost:3001/api/naver/data?start=2021-11-24-01-01&end=2021-11-25-03-50
             const isDateFormat = dateChecker(startDate) && dateChecker(endDate);
             if(!isDateFormat) return res.status(400).json({
                 message : 'Bad Request'
