@@ -9,7 +9,7 @@ require('dotenv').config()
 
 class BlogService{
     constructor(serarchDto){
-        this.keyword = keywordFiler(serarchDto.getKeyword());
+        this.keyword = serarchDto.getKeyword();
     }
     // NaverAPI 에서 받은 블로그 게시글들 반환
     async getKeywordData(){
@@ -22,7 +22,7 @@ class BlogService{
             },
             // 키워드 기준 데이터 50개 끊어서 가져온다.
             params: {
-                query: this.keyword,
+                query: keywordFiler(this.keyword),
                 display: 20,
                 sort : 'date'
             }
@@ -35,19 +35,12 @@ class BlogService{
             const link = item.link;
             // 포맷 변경
             const koreanTime = new KoreanTime();
-            console.log(koreanTime.getHours(),koreanTime.getMinutes())
             const date = `${toDateFormat(item.postdate)}-${koreanTime.getHours()}-${koreanTime.getMinutes()}`;
             return new BlogDataDto(content,link,date,this.keyword);
         });
     }
     // 
     async saveData() {
-        const recentData = await BlogData.findOne({},{}, { sort: { 'date': -1 }})
-        if(recentData){
-            const recentDate = recentData.date;
-            console.log('최근',recentDate); 
-        }
-        //
         const keywordDataSet = await this.getKeywordData();
         for(const blogData of keywordDataSet){
             const blogDao = new BlogDao();
