@@ -10,7 +10,7 @@ set time_zone='Asia/Seoul';
 
 CREATE TABLE Post (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-    class VARCHAR(20) NOT NULL,
+    keyword VARCHAR(20) NOT NULL,
     link VARCHAR(300) NOT NULL,
     date VARCHAR(50) NOT NULL,
     PRIMARY KEY(id)
