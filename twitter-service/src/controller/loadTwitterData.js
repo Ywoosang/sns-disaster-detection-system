@@ -24,8 +24,7 @@ exports.upload = async function(Class,keyword){
             });               
             await newData.save().catch(error => {
                 // 중복 방지를 위해 link 를 키로 설정했음. 키가 중복되었다면 error 를 발생시키는데, 
-                // 키가 중복 관련 에러이면 이를 무시함 
-        
+                // 키가 중복 관련 에러이면 이를 무시함        
                 if(error.message.indexOf('E11000 duplicate key error collection') == -1){
                     console.log(error);
                 }
@@ -40,6 +39,5 @@ exports.upload = async function(Class,keyword){
         console.log(error);
     });
 
-    
     return 0;
 }
