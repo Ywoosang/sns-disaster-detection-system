@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/main.js"
+    "start": "pm2-runtime src/main.js",
+    "test2":"node src/main.js"
   },
   "keywords": [],
   "author": "",
