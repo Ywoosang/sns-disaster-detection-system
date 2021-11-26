@@ -27,10 +27,9 @@ exports.upload = async function(Class,keyword){
                 // 키가 중복 관련 에러이면 이를 무시함        
                 if(error.message.indexOf('E11000 duplicate key error collection') == -1){
                     console.log(error);
-                }
-                
+                }                
             });
-        }        
+        }      
 
     }).then(()=>{
         console.log("전송 완료")        
