@@ -76,15 +76,9 @@ def nlp(data): #data는 list, element: dict
         data_content_all_meaningful.append(data_content_all[index])
 
   for content in data_content:
-    index = 0
     for sentence in content[:]:
       if not sentence in data_content_all_meaningful:
         content.remove(sentence)
-        #content[index] = ''
-      index = index + 1
-
-  for content in data_content:
-    print(content)
 
   data_result = []
 
