@@ -9,10 +9,12 @@ class BlogDao {
             console.log(blogData)
             console.log('------------------DONE--------------------')
             const newData = new BlogData({
+                service: 'naver',
                 content: blogData.getContent(),
                 link: blogData.getLink(),
                 date: blogData.getDate(),
-                keyword: blogData.getKeyword()
+                keyword: blogData.getKeyword(),
+                sns: blogData.getSns()
             });
             await newData.save();
         }

@@ -1,9 +1,14 @@
 class BlogDataDto {
-    constructor(content,link,date,keyword){
+    constructor(content,link,date,keyword,sns){
         this.content = content;
         this.date = date;
         this.link = link;
         this.keyword = keyword;
+        this.sns = sns;
+    }
+
+    getSns(){
+        return this.sns
     }
 
     getContent() {
