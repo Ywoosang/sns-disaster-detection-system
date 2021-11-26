@@ -1,5 +1,4 @@
-FROM python:3
-
+FROM python:3.8.8
 WORKDIR /usr/src
 RUN apt-get -y update
 RUN apt install wget
