@@ -3,7 +3,6 @@ const uri = 'http://api.twitter.com/2/tweets/search/recent'
 require('dotenv').config()
 const bearer_token = process.env.TWITTER_TOKEN;
 
-console.log('토큰'+bearer_token)
 async function getTwitterData(keyword) {
     const options = {
         headers: { 'Authorization': 'bearer ' + bearer_token },

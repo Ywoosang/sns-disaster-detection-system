@@ -12,12 +12,7 @@ exports.upload = async function(Class,keyword){
         db.collection('twitter_data').createIndex( { link: 1 }, { unique: true } )
         var regExp = /[a-z\@\#\/\:\n0-9\.\|]/gi
         for(let i = 0 ; i<res.length;i++){  
-                /*              
-                if(lastData != null &&lastData.content == res[i][0]){
-                    console.log("break at "+i.toString())
-                    break;
-                }
-                */
+            
             const newData = new DBdata({
                 'sns' : res[i][0],
                 'content' : res[i][0].replace(regExp,""),
