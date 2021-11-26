@@ -54,7 +54,7 @@ def nlp(data): #data는 list, element: dict
   for content in data_content_all:
     content_vector.append(model.get_sentence_vector(content))
 
-  kmeans = KMeans(n_clusters=120).fit(content_vector)
+  kmeans = KMeans(n_clusters=100).fit(content_vector)
 
   target_label_ = []
   for i in range(data_pre):
@@ -84,7 +84,7 @@ def nlp(data): #data는 list, element: dict
       data_result.append({ "service": data_service[index],
                           "keyword": data_keyword[index],
                           "link": data_link[index],
-                          "sns": data_sns[index]
+                          "sns": data_sns[index],
                           "content": data_content[index], 
                           'date': data_date[index]})
   return data_result
