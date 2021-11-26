@@ -1,10 +1,12 @@
 const express = require('express');
 const load_twitter = require('./controller/loadTwitterData.js')
-const mongodb = require('./mongodb');
-const toISO = require('./toISO');
+const mongodb = require('./util/mongodb');
+const toISO = require('./util/toISO');
+const scheduler = require('./util/scheduler');
 const app = express();
-require('dotenv').config()
-const db = mongodb.dbsetting()
+require('dotenv').config();
+const db = mongodb.dbsetting();
+
 /*
 - db 에 아무것도 없는 경우 가장 마지막 date 에 넣어진 것이 없으면 2021-11-11-11-11 이후 데이터를 저장
 - db 에 마지막으로 저장된 (date 값이 가장 큰것) 의 date 를 불러온다
@@ -22,27 +24,54 @@ app.post('/api/twitter/data',async function(req,res){
     
     res.send('success')
 });
+//쿼리스트링 검사하기
+function checkdate(req,res,next){
+    var date_pattern = /^(19|20)\d{2}-([1-9]|0[1-9]|1[012])-([1-9]|0[1-9]|[12][0-9]|3[0-1])-([0-9]|0[0-9]|1[0-9]|2[0-3])-([0-9]|0[0-9]|[12345][0-9])$/; 
 
-
-app.get('/api/twitter/data/',async function(req,res){
-    const TimeData = ['2021','11','11','22','05'] //여기에 타임에 관한 정보를 넣어주세요
-    const lastTime = toISO.toISO(TimeData);
-    const response = []
-    const cursor = db.collection('twitter_data').find({date : { $gte:lastTime}});
-    while (await cursor.hasNext()) { // Iterate entire data
-        const doc = await cursor.next(); // Get 1 Document
-        const dToj = {
-             content : doc.content,
-             link : doc.link,
-             'class':doc.class,
-             date : doc.date
-        }
-        response.push(dToj);
-        console.log(dToj);
+    if (date_pattern.test(req.query.start) && date_pattern.test(req.query.end)) {
+        next();
+    } else {
+        res.status(301).send({"msg":"잘못된 접근입니다.","start":req.query.start,"end":req.query.end})
     }
-    res.send(response)
+}
+
+app.get('/api/twitter/data/',checkdate,async function(req,res){
+    try{
+        const StartTime = req.query.start.split('-') //여기에 타임에 관한 정보를 넣어주세요
+        const EndTime = req.query.end.split('-') 
+        const firstTime = toISO.toISO(StartTime);
+        const lastTime = toISO.toISO(EndTime);
+        const response = []
+        const cursor = db.collection('twitter_data').find({date : { $gte:firstTime,$lte:lastTime}});
+        while (await cursor.hasNext()) { // Iterate entire data
+            const doc = await cursor.next(); // Get 1 Document
+            const dToj = {
+                 sns: doc.sns,
+                 content : doc.content,
+                 link : doc.link,
+                 keyword :doc.class,
+                 date : toISO.toArr(doc.date),
+                 service : doc.service
+    
+            }
+            response.push(dToj);
+            console.log(dToj);
+        }
+        if(response.length == 0){
+            res.status(400).json({"msg":"no data"})
+        }
+        else{
+            res.send(response)
+        }
+        
+    }
+    catch(err){
+        console.log(err);
+    }
+   
 });
 
 app.listen(process.env.TWITTER_PORT, function (){
-    console.log('app listening on port 3002!');
+    console.log('app listening on port '+ process.env.TWITTER_PORT.toString()+'!');
+    scheduler.scheduler.start();
 });
