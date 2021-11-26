@@ -58,11 +58,11 @@ def nlp(data): #data는 list, element: dict
   for content in data_content_all:
     content_vector.append(model.get_sentence_vector(content))
 
-  if content_vector > 200:
+  if len(content_vector) > 200:
     kmeans = KMeans(n_clusters=100).fit(content_vector)
-  elif content_vector > 100:
+  elif len(content_vector) > 100:
     kmeans = KMeans(n_clusters=50).fit(content_vector)
-  elif content_vector > 50:
+  elif len(content_vector) > 50:
     kmeans = KMeans(n_clusters=25).fit(content_vector)
     
   target_label_ = []
