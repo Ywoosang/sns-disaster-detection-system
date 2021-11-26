@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
+var dbURL = 'mongodb://localhost:27017/moai'
 exports.dbsetting = function(){
-    mongoose.connect('mongodb://twitter-db:27017/moai', {useUnifiedTopology : true, useNewUrlParser: true});
+    mongoose.connect(dbURL);
     var db = mongoose.connection;
     db.on('error', function(){
     console.log('Connection Failed!');
