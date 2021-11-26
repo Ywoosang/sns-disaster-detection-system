@@ -19,6 +19,10 @@ def clean_text(text):
   #data = json.load(st_json)
 
 def nlp(data): #data는 list, element: dict
+  if len(data <= 50):
+      print("[Error] Too little data to learn")
+      return data
+
   data_service = []
   data_content = []
   data_date = []
@@ -54,8 +58,13 @@ def nlp(data): #data는 list, element: dict
   for content in data_content_all:
     content_vector.append(model.get_sentence_vector(content))
 
-  kmeans = KMeans(n_clusters=100).fit(content_vector)
-
+  if content_vector > 200:
+    kmeans = KMeans(n_clusters=100).fit(content_vector)
+  elif content_vector > 100:
+    kmeans = KMeans(n_clusters=50).fit(content_vector)
+  elif content_vector > 50:
+    kmeans = KMeans(n_clusters=25).fit(content_vector)
+    
   target_label_ = []
   for i in range(data_pre):
     target_label_.append(kmeans.labels_[i])
