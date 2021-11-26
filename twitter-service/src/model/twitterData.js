@@ -32,6 +32,6 @@ exports.getTotalData = async function (keyword) {
         };
         return res;
     }catch(error){
-        //console.log(error);
+        console.log(error);
     }
 };

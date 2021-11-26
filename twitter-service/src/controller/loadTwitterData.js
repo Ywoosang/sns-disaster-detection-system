@@ -31,13 +31,10 @@ exports.upload = async function(Class,keyword){
                 }
                 
             });
-        }
-        
-        
-        
+        }        
+
     }).then(()=>{
-        console.log("전송 완료")
-        
+        console.log("전송 완료")        
     }) 
     .catch(error => { 
         console.log(error);
