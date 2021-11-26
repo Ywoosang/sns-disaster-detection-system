@@ -13,13 +13,15 @@ exports.toISO = function (arr){
 
 exports.toArr = function(iso){
     var res = [];
+    
     var ti = new Date(iso)
     res.push(ti.getFullYear().toString())
-    res.push(ti.getUTCMonth().toString())
+    res.push((ti.getUTCMonth()+1).toString())
     res.push(ti.getUTCDate().toString())
     res.push(ti.getUTCHours().toString())
     res.push(ti.getMinutes().toString())
-    return res;
+    var res_str=res[0]+"-"+res[1]+"-"+res[2]+"-"+res[3]+"-"+res[4]
+    return res_str;
 
 }
 

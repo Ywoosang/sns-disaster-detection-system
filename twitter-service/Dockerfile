@@ -3,6 +3,5 @@ WORKDIR /usr/src
 COPY package.json .
 COPY package-lock.json .
 RUN npm i
-COPY main.js .
+RUN npm install pm2 -g
 COPY src/ ./src
-RUN npm start

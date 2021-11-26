@@ -15,10 +15,12 @@ exports.dbsetting = function(){
 }
 
 exports.data = new mongoose.Schema({
-    content : 'string',
-    date : 'string',
-    link : 'string',
-    type : 'string'
+    'content' : 'string',
+    'sns' : 'string',
+    'date':'string',
+    'link' : 'string',
+    'keyword' : 'string',
+    'service': 'string'
 
 });
 
