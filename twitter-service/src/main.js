@@ -26,13 +26,11 @@ app.get('/api/twitter/data',checkdate,async function(req,res){
             res.json({
                 'data': response
             })
-        }
-        
+        }        
     }
     catch(err){
         console.log(err);
-    }
-   
+    }   
 });
 
 app.listen(process.env.TWITTER_PORT, function (){
