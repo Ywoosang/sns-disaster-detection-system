@@ -16,10 +16,26 @@ exports.toArr = function(iso){
     
     var ti = new Date(iso)
     res.push(ti.getFullYear().toString())
-    res.push((ti.getUTCMonth()+1).toString())
-    res.push(ti.getUTCDate().toString())
-    res.push(ti.getUTCHours().toString())
-    res.push(ti.getMinutes().toString())
+    var month = (ti.getUTCMonth()+1).toString()
+    var dte = ti.getUTCDate().toString()
+    var hur= ti.getUTCHours().toString()
+    var mnt =ti.getMinutes().toString()
+    if(month.length == 1){
+        month = "0"+month;
+    }
+    if(dte.length == 1){
+        dte = "0"+dte;
+    }
+    if(hur.length == 1){
+        hur = "0"+hur;
+    }
+    if(mnt.length == 1){
+        mnt = "0"+mnt;
+    }
+    res.push(month)
+    res.push(dte)
+    res.push(hur)
+    res.push(mnt)
     var res_str=res[0]+"-"+res[1]+"-"+res[2]+"-"+res[3]+"-"+res[4]
     return res_str;
 
