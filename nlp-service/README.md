@@ -6,13 +6,13 @@
  
  
 ## 목차
-1. [📃 Korean Sentence Splitter](#📃-KSS)
+1. [📃 Korean Sentence Splitter](#📃-KSS <a href='https://github.com/likejazz/korean-sentence-splitter'>link</a>)
 2. [🌍 FastText](#🌍-NLP Model - Vectorizer)
 3. [📥 Kmeans](#📥- Unsupervised Learning - Clustering)
 
-## 📃 Description
+## 📃 Korean Sentence Splitter
 
->### Instragram, Naver blog, Twitter 상의 재난 관련 소셜 데이터를 수집해 실시간 재난 정보를 제공하는 서비스입니다.<br>
+>### 한국어 문단을 인풋으로 받아 문단을 문장 단위로 잘라 List로 반환해주는 모듈입니다.<br>
 
 ### dashboard
 ![재난 언급량 순위](./.readme/dashboard1.jpg)<br>
