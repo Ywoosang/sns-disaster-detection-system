@@ -7,8 +7,8 @@ services:
     depends_on: 
       - mail-service
       - instagram-service 
-      # - twitter-service
-      # - naver-service
+      - twitter-service
+      - naver-service
     ports:
       - "8080:80"
     
@@ -32,39 +32,39 @@ services:
     depends_on: 
       - "instagram-database"
 
-  # naver-service:
-  #   build: 
-  #     context: ./naver-service
-  #   container_name: naver-service
-  #   ports:
-  #     - 3002:3002
-  #   depends_on: 
-  #     - "naver-database"
+  naver-service:
+    build: 
+      context: ./naver-service
+    container_name: naver-service
+    ports:
+      - 3002:3002
+    depends_on: 
+      - "naver-database"
 
-  # twitter-service:
-  #   build: 
-  #     context: ./twitter-service
-  #   container_name: twitter-service
-  #   ports:
-  #     - "3001:3001"
-  #   depends_on: 
-  #     - "twitter-database"
+  twitter-service:
+    build: 
+      context: ./twitter-service
+    container_name: twitter-service
+    ports:
+      - "3001:3001"
+    depends_on: 
+      - "twitter-database"
 
-  # twitter-database:
-  #   image: mongo
-  #   container_name: twitter-db
-  #   ports: 
-  #     - "27017:27017"
-  #   volumes:
-  #     - ./volumes/twitter_db_volume:/data/db
+  twitter-database:
+    image: mongo
+    container_name: twitter-db
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./volumes/twitter_db_volume:/data/db
 
-  # naver-database:
-  #   image: mongo
-  #   container_name: naver-db
-  #   ports: 
-  #     - "27018:27017"
-  #   volumes:
-  #     - ./volumes/naver_db_volume:/data/db
+  naver-database:
+    image: mongo
+    container_name: naver-db
+    ports: 
+      - "27018:27017"
+    volumes:
+      - ./volumes/naver_db_volume:/data/db
 
   instagram-database:
     image: mysql:8.0
@@ -77,6 +77,8 @@ services:
       - ./volumes/instagram-db_volume:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    cap_add: 
+      - SYS_NICE
 
 networks: 
   sns_disaster_net:
