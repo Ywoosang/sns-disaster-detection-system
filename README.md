@@ -49,8 +49,8 @@ sns 상의 비정형 언어 데이터를 nlp를 통해 분석하여 재난이 �
 * Container: ![도커](https://img.shields.io/badge/docker-blue)
 * proxy sever : ![ngnix](https://img.shields.io/badge/nginx-brightgreen)
 * Language : ![파이썬](https://img.shields.io/badge/python-blue) ![자스](https://img.shields.io/badge/javascript-orange) ![타스](https://img.shields.io/badge/typescript-skyblue)
-* Frameworks : ![Vue](https://img.shields.io/badge/Vue.js-green) ![node](https://img.shields.io/badge/node.js-brightgreen) ![flask](https://img.shields.io/badge/flask-gray)
-* Database:  ![mysql](https://img.shields.io/badge/mysql-8.0-blue)![mongo](https://img.shields.io/badge/mongo-5.0.3-brightgreen)
+* Framework : ![Vue](https://img.shields.io/badge/Vue.js-green) ![node](https://img.shields.io/badge/node.js-brightgreen) ![flask](https://img.shields.io/badge/flask-gray)
+* Database:  ![mysql](https://img.shields.io/badge/mysql-8.0-blue) ![mongo](https://img.shields.io/badge/mongo-5.0.3-brightgreen)
 
 ## 📥 Usage
 
