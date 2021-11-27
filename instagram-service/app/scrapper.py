@@ -41,7 +41,6 @@ class InstagramCrawler:
                 "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
             options.add_argument("lang=ko_KR")
             driver = webdriver.Chrome(chromedriver, options=options)
-            driver = webdriver.Chrome(chromedriver)
             # 아이디, 패스워드
             userId = ['test_ywoosang', 'hyena_crawler', 'kimfe9']
             userPassword = ['test1234', 'crawler123','yhcm2618']
@@ -54,10 +53,12 @@ class InstagramCrawler:
             id_section = driver.find_element_by_name('username')
             id_section.clear()
             i = random.randrange(0,3)
-            id_section.send_keys(userId[i])
+            # id_section.send_keys(userId[i])
+            id_section.send_keys('test_ywoosang')
             pw_section = driver.find_element_by_name('password')
             pw_section.clear()
-            pw_section.send_keys(userPassword[i])
+            # pw_section.send_keys(userPassword[i])
+            pw_section.send_keys('test1234')
             pw_section.submit()
             time.sleep(3)
             self.driver = driver
