@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var dbURL = 'mongodb://localhost:27017/moai'
+var dbURL = 'mongodb://twitter-db:27017/moai'
 exports.dbsetting = function(){
     mongoose.connect(dbURL);
     var db = mongoose.connection;
@@ -21,6 +21,5 @@ exports.data = new mongoose.Schema({
     'link' : 'string',
     'keyword' : 'string',
     'service': 'string'
-
 });
 

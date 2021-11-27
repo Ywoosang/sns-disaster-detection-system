@@ -5,7 +5,15 @@ const toISO = require('./util/toISO');
 const scheduler = require('./util/scheduler');
 const app = express();
 require('dotenv').config();
-const db = mongodb.dbsetting();
+
+mongoose.connect('mongodb://twitter-db:27017/moai');
+const db = mongoose.connection;
+db.on('error', function () {
+    console.log('Connection Failed!');
+});
+db.once('open', function () {
+    console.log('Connected!');
+});
 
 function checkdate(req,res,next){
     var date_pattern = /^(19|20)\d{2}-([1-9]|0[1-9]|1[012])-([1-9]|0[1-9]|[12][0-9]|3[0-1])-([0-9]|0[0-9]|1[0-9]|2[0-3])-([0-9]|0[0-9]|[12345][0-9])$/; 
@@ -17,7 +25,7 @@ function checkdate(req,res,next){
     }
 }
 
-app.get('/api/twitter/data/',checkdate,async function(req,res){
+app.get('/api/twitter/data',checkdate,async function(req,res){
     try{
         const StartTime = req.query.start.split('-') //여기에 타임에 관한 정보를 넣어주세요
         const EndTime = req.query.end.split('-') 
@@ -43,7 +51,9 @@ app.get('/api/twitter/data/',checkdate,async function(req,res){
             res.status(400).json({"msg":"no data"})
         }
         else{
-            res.send(response)
+            res.json({
+                'data': response
+            })
         }
         
     }
