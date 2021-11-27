@@ -5,9 +5,6 @@ USE Instagram;
 DROP TABLE IF EXISTS Post;
 DROP TABLE IF EXISTS Comment;
 
-SET GLOBAL time_zone='Asia/Seoul';
-set time_zone='Asia/Seoul';
-
 CREATE TABLE Post (
     id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     keyword VARCHAR(20) NOT NULL,

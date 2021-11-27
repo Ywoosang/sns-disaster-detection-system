@@ -1,5 +1,4 @@
-FROM python:3
-
+FROM python:3.8.8
 WORKDIR /usr/src
 RUN apt-get -y update
 RUN apt install wget
@@ -15,4 +14,3 @@ RUN echo "---------------------------------------------------------------------"
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
-CMD [ "python", "app/main.py" ]

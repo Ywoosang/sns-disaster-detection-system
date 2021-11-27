@@ -3,8 +3,8 @@ const keywordFiler = require('../utils/keywordFilter');
 const toDateFormat = require('../utils/toDateFomat');
 const BlogDao = require('../daos/blog.dao');
 const BlogDataDto = require('../dtos/blog.dto');
-const BlogData = require('../model/blogData.model');
 const KoreanTime = require('../utils/koreanTime');
+const contentUtil = require('../utils/contentUtil');
 require('dotenv').config()
 
 class BlogService{
@@ -23,7 +23,7 @@ class BlogService{
             // 키워드 기준 데이터 50개 끊어서 가져온다.
             params: {
                 query: keywordFiler(this.keyword),
-                display: 20,
+                display: 10,
                 sort : 'date'
             }
         }
@@ -31,12 +31,13 @@ class BlogService{
         const result = await axios.get('https://openapi.naver.com/v1/search/blog',options);
         const items =  result.data.items;
         return items.map(item => {
-            const content = item.title.replace("<b>","").replace("</b>","") + item.description.replace("<b>","").replace("</b>","")
+            const content =  contentUtil(item.title,item.description)
+            const sns = item.title.replace('</b>','').replace('<b>','') +  item.description.replace('</b>','').replace('<b>','')
             const link = item.link;
             // 포맷 변경
             const koreanTime = new KoreanTime();
             const date = `${toDateFormat(item.postdate)}-${koreanTime.getHours()}-${koreanTime.getMinutes()}`;
-            return new BlogDataDto(content,link,date,this.keyword);
+            return new BlogDataDto(content,link,date,this.keyword,sns);
         });
     }
     // 

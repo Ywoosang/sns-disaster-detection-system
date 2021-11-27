@@ -16,7 +16,8 @@ class App{
     constructor(port,controllers){
         this.app = express();
         this.port = port;
-        this.initializeMiddlewares(controllers);
+        this.initializeMiddlewares();
+        this.initializeRoutes(controllers)
     }
 
     initializeMiddlewares(){

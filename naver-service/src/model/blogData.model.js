@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const naverDataSchema = new Schema({
+    service: 'string',
     content : 'string',
     date : 'string',
+    sns: 'string',
     link : 'string',
     keyword : 'string',
 },{

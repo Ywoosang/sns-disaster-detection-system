@@ -16,14 +16,16 @@ function checkdate(req,res,next){
     }
 }
 
-app.get('/api/twitter/data/',checkdate,async function(req,res){
+app.get('/api/twitter/data',checkdate,async function(req,res){
     try{
         var response = await get_twitter.download(req.query.start,req.query.end);
         if(response.length == 0){
             res.status(400).json({"msg":"no data"})
         }
         else{
-            res.send(response)
+            res.json({
+                'data': response
+            })
         }
         
     }
