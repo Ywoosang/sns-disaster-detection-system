@@ -17,7 +17,7 @@
 
 ## 🌍 FastText
 >### 한국어 문장을 인풋으로 받아 각 문장들을 Vectorize하는 모듈입니다.<br>
->Usage
+## Usage
 >![image](https://user-images.githubusercontent.com/68385605/143679677-4e66d495-1e39-400a-a6da-16444c2bc5c3.png)
 >### 각 문장을 300 Dimension Feature로 Vectorize 합니다.
 
