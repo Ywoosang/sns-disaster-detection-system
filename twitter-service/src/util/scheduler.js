@@ -7,6 +7,5 @@ exports.scheduler = cron.schedule('*/5 * * * *', async function () {
     
     for(var i = 0 ; i<keywords.length;i++){
         await load_twitter.upload(keywords[i][0],keywords[i][1]);
-    }    
-    console.log('last data uploaded :', new Date().toString());
+    } 
   });

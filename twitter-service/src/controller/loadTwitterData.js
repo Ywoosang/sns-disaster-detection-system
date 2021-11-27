@@ -1,26 +1,24 @@
-const twitterData= require('../model/twitterData');
-const mongodb = require('../util/mongodb')
+const twitterService= require('../services/twitter.service');
+const twitterData = require('../model/twitter.model')
 const mongoose = require('mongoose');
+const mongodb = require('../util/mongodb')
 const db = mongodb.dbsetting(()=>{});
 
 exports.upload = async function(Class,keyword){
-    await twitterData.getTotalData(keyword)
+    await twitterService.getTotalData(keyword)
     .then(async (res)=>{
         //console.log(res);
-        mongodb.data.set('collection', 'twitter_data');
-        const DBdata = mongoose.model('twitter_data', mongodb.data);
         db.collection('twitter_data').createIndex( { link: 1 }, { unique: true } )
         var regExp = /[a-z\@\#\/\:\n0-9\.\|]/gi
         for(let i = 0 ; i<res.length;i++){  
             
-            const newData = new DBdata({
+            const newData = new twitterData({
                 'sns' : res[i][0],
                 'content' : res[i][0].replace(regExp,""),
                 'link' : res[i][1],
                 'date' : res[i][2],
                 'keyword': Class,
                 'service': 'twitter'
-            
             });               
             await newData.save().catch(error => {
                 // 중복 방지를 위해 link 를 키로 설정했음. 키가 중복되었다면 error 를 발생시키는데, 
@@ -29,11 +27,8 @@ exports.upload = async function(Class,keyword){
                     console.log(error);
                 }                
             });
-        }      
-
-    }).then(()=>{
-        console.log("전송 완료")        
-    }) 
+        }     
+    })
     .catch(error => { 
         console.log(error);
     });
