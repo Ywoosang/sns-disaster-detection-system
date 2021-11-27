@@ -12,7 +12,7 @@
 
 ## 📃 Description
 
->### Instragram, Naver blog, Twitter 상의 재난 관련 소셜 데이터를 수집해 실시간 재난 정보를 제공하는 서비스입니다.<br>
+>### Instragram, Naver blog, Twitter 상의 재난 관련 비정형 소셜 데이터를 수집해 실시간 재난 정보를 제공하는 서비스입니다.<br>
 
 ### dashboard
 ![재난 언급량 순위](./.readme/dashboard1.jpg)<br>
