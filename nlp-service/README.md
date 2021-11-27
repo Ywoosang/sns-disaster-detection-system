@@ -13,6 +13,8 @@
 ## 📃 Korean Sentence Splitter
 
 >### 한국어 문단을 인풋으로 받아 문단을 문장 단위로 잘라 List로 반환해주는 모듈입니다.<br>
+>![image](https://user-images.githubusercontent.com/68385605/143679174-cc781889-7367-4939-9cf4-1b5b0aaa434c.png)
+
 
 ### dashboard
 ![재난 언급량 순위](./.readme/dashboard1.jpg)<br>
