@@ -74,7 +74,20 @@ npm install
     - start: 불러올 인스타그램 게시물의 최소 게시 시각
     - end: 불러올 인스타그램 게시물의 최대 게시 시각
 * response
-    - data: 조건에 맞는 게시물 정보
+```python
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "sns": "@c2u8B1 너무 행복해지는 뉴스 봤다....",
+                "date": "2021-11-27-08-56",
+                "link" : "https://www.instagram.com/p/CWsfshMB25s/",
+                "keyword": "폭설",
+                "service" :"instagram"
+           }   
+       ]
+    }
+```
 
 ```
 2. GET /api/naver/data
@@ -83,7 +96,21 @@ npm install
     - start: 불러올 네이버 블로그 게시물의 최소 게시 시각
     - end: 불러올 네이버 블로그 게시물의 최대 게시 시각
 * response
-    - data: 조건에 맞는 게시물 정보
+```javascript
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "sns": "너무 행복해지는 뉴스 봤다....",
+                "date": "2021-11-27-08-56",
+                "link" : "https://blog.naver.com/example/222563848039",
+                "keyword": "폭설",
+                "service" :"naver"
+           }   
+       ]
+    }
+```
+    
 
 ```
 3. GET /api/twitter/data
@@ -92,14 +119,29 @@ npm install
     - start: 불러올 트위터 게시물의 최소 게시 시각
     - end: 불러올 트위터 게시물의 최대 게시 시각
 * response
-    - data: 조건에 맞는 게시물 정보
+```javascript
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "sns": "RT @c2u8B1: 너무 행복해지는 뉴스 봤다....",
+                "date": "2021-11-27T08:56:30.000Z",
+                "link" : "twitter.com/1373694628797456384/status/1464518481282404352",
+                "keyword": "폭설",
+                "service" :"twitter"
+           }   
+       ]
+    }
+```
 
 ```
 4. GET /mail
 ```
 * request
 * response
-    - ![파이썬](https://img.shields.io/badge/status-blue) 200: 정상적으로 전송되었을 때
+```typescript
+{}
+```
 
 ```
 5. GET /model
@@ -109,7 +151,17 @@ npm install
     - start: 분석할 게시물의 최소 게시 시각
     - end: 분석할 게시물의 최대 게시 시각
 * response
-    - data: 크롤링한 데이터중 nlp로 분석한 결과 재난 키워드와 관련되었다고 분석된 데이터
+    ```python
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "keyword": "폭설",
+                "service" :"instagram"
+           }   
+       ]
+    }
+``` 
 
 
 
