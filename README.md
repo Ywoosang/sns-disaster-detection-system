@@ -94,7 +94,28 @@ npm install
 ```
 
 ```
-2. GET /api/naver/data
+2. GET /api/instagram/ping
+```
+* request
+* response
+    * 최신 데이터 20개를 받는다.
+```python
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "date": "2021-11-27-08-56",
+                "link" : "https://www.instagram.com/p/CWsfshMB25s/",
+                "keyword": "폭설",
+                "service" :"instagram"
+           }   
+       ]
+    }
+```
+
+
+```
+3. GET /api/naver/data
 ```
 * request
     - parameters
@@ -120,9 +141,27 @@ npm install
     }
 ```
     
-
 ```
-3. GET /api/twitter/data
+4. GET /api/naver/ping
+```
+* request
+* response
+    * 최신 데이터 20개를 받는다.
+```python
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "date": "2021-11-27-08-56",
+                "link" : "https://blog.naver.com/example/222563848039",
+                "keyword": "폭설",
+                "service" :"naver"
+           }   
+       ]
+    }
+```
+```
+5. GET /api/twitter/data
 ```
 * request
  * Parameters
@@ -147,9 +186,27 @@ npm install
        ]
     }
 ```
-
 ```
-4. GET /mail
+6. GET /api/twitter/ping
+```
+* request
+* response
+    * 최신 데이터 20개를 받는다.
+```javascript
+    {
+       "data":[
+             {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "date": "2021-11-27T08:56:30.000Z",
+                "link" : "twitter.com/1373694628797456384/status/1464518481282404352",
+                "keyword": "폭설",
+                "service" :"twitter"
+           }    
+       ]
+    }
+```
+```
+7. GET /mail
 ```
 * request
 * response
@@ -158,9 +215,8 @@ npm install
 ```
 
 ```
-5. GET /model
+8. GET /model
 ```
-
 * request
     - parameter
 
@@ -170,17 +226,38 @@ npm install
 |end|분석한 게시물의 최대 게시 시각|
 
 * response
-    ```python
+```python
     {
        "data":[
            {
                "content": "너무 행복해지는 뉴스 봤다",
+                "sns": "RT @c2u8B1: 너무 행복해지는 뉴스 봤다....",
+                "date": "2021-11-27-08-56",
+                "link" : "twitter.com/1373694628797456384/status/1464518481282404352",
                 "keyword": "폭설",
-                "service" :"instagram"
+                "service" :"twitter"
            }   
        ]
     }
 ``` 
 
-
+```
+9. GET /model/ping
+```
+* request
+* response
+    * 최신 데이터 20개를 받는다.
+```python
+    {
+       "data":[
+           {
+               "content": "너무 행복해지는 뉴스 봤다",
+                "date": "2021-11-27-08-56",
+                "link" : "twitter.com/1373694628797456384/status/1464518481282404352",
+                "keyword": "폭설",
+                "service" :"twitter"
+           }   
+       ]
+    }
+``` 
 
