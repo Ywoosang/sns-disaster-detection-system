@@ -71,8 +71,12 @@ npm install
 1. GET /api/instagram/data
 ```
 * request
-    - start: 불러올 인스타그램 게시물의 최소 게시 시각
-    - end: 불러올 인스타그램 게시물의 최대 게시 시각
+ * parameters
+
+|파라미터|내용|
+|------|---|
+|start|불러올 인스타그램 게시물의 최소 게시 시각|
+|end|불러올 인스타그램 게시물의 최대 게시 시각|
 * response
 ```python
     {
@@ -93,8 +97,13 @@ npm install
 2. GET /api/naver/data
 ```
 * request
-    - start: 불러올 네이버 블로그 게시물의 최소 게시 시각
-    - end: 불러올 네이버 블로그 게시물의 최대 게시 시각
+    - parameters
+
+
+|파라미터|내용|
+|------|---|
+|start|불러올 네이버 게시물의 최소 게시 시각|
+|end|불러올 네이버 게시물의 최대 게시 시각|
 * response
 ```javascript
     {
@@ -116,8 +125,13 @@ npm install
 3. GET /api/twitter/data
 ```
 * request
-    - start: 불러올 트위터 게시물의 최소 게시 시각
-    - end: 불러올 트위터 게시물의 최대 게시 시각
+ * Parameters
+
+|파라미터|내용|
+|------|---|
+|start|불러올 트위터 게시물의 최소 게시 시각|
+|end|불러올 트위터 게시물의 최대 게시 시각|
+
 * response
 ```javascript
     {
@@ -148,8 +162,13 @@ npm install
 ```
 
 * request
-    - start: 분석할 게시물의 최소 게시 시각
-    - end: 분석할 게시물의 최대 게시 시각
+    - parameter
+
+|파라미터|내용|
+|------|---|
+|start|분석한 게시물의 최소 게시 시각|
+|end|분석한 게시물의 최대 게시 시각|
+
 * response
     ```python
     {
