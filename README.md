@@ -63,16 +63,6 @@ sns 상의 비정형 언어 데이터를 nlp를 통해 필터링하여 재난과
 ### front setup
 ```
 npm install
-npm install --save vue-router
-npm install --save vuex
-<!-- vue-chart.js & chart.js -->
-npm install --save chart.js@2.9.4
-<!-- font awesome -->
-npm i --save @fortawesome/fontawesome-svg-core@next
-npm i --save @fortawesome/free-solid-svg-icons@next
-npm i --save @fortawesome/free-regular-svg-icons@next
-npm i --save @fortawesome/free-brands-svg-icons@next
-npm i --save @fortawesome/vue-fontawesome@latest
 ```
 
 ## 🔉 APIs
