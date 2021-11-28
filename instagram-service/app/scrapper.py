@@ -7,9 +7,13 @@ import time
 import random
 
 class InstagramCrawler:
-    def __init__(self, keywords, requestTime):
-        self.keywords = keywords
+    def __init__(self, keyword, requestTime, idx):
+        self.keyword = keyword
         self.requestTime = requestTime
+        self.userId = ['test_ywoosang', 'hyena_crawler', 'kimfe9', 'ninei_yat','Hong_test1','eses20010427','so_omin0703']
+        self.userPassword = ['test1234', 'crawler123','yhcm2618','ninei1234','testtest123','nonochadan','chadannono']
+        self.idx = idx
+
 
     def run(self):
         """
@@ -18,18 +22,17 @@ class InstagramCrawler:
         try:
             self.setDriver()
             response = self.getComments()
-            self.driver.close()
             return response
         except Exception as error:
-            self.driver.close()
             print(error)
-            raise Exception('Chrome driver setting error')
+            raise Exception(f'{self.keyword} Scrapping Error')
 
     def setDriver(self):
         """
         로그인 상태의 드라이버 생성
         """
         try:
+            time.sleep(2)
             chromedriver = "/usr/src/chrome/chromedriver"
             options = webdriver.ChromeOptions()
             options.add_argument('headless')
@@ -38,13 +41,9 @@ class InstagramCrawler:
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("disable-gpu")
             options.add_argument(
-                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36")
             options.add_argument("lang=ko_KR")
             driver = webdriver.Chrome(chromedriver, options=options)
-            # 아이디, 패스워드
-            userId = ['test_ywoosang', 'hyena_crawler', 'kimfe9']
-            userPassword = ['test1234', 'crawler123','yhcm2618']
-            # os.getenv
             driver.get('https://www.instagram.com/accounts/login')
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
@@ -53,23 +52,23 @@ class InstagramCrawler:
             id_section = driver.find_element_by_name('username')
             id_section.clear()
             i = random.randrange(0,3)
-            # id_section.send_keys(userId[i])
-            id_section.send_keys('test_ywoosang')
+            id_section.send_keys(self.userId[self.idx])
             pw_section = driver.find_element_by_name('password')
             pw_section.clear()
-            # pw_section.send_keys(userPassword[i])
-            pw_section.send_keys('test1234')
+            pw_section.send_keys(self.userPassword[self.idx])
             pw_section.submit()
-            time.sleep(3)
+            time.sleep(i)
             self.driver = driver
         except Exception as error:
             print(error)            
-            raise Exception('driver setting error')
+            pass
 
     def getUrl(self, word):
         """
         검색 키워드로 url 생성
         """
+        if(word == '코로나'):
+            word = '코로나확진'
         url = f'https://www.instagram.com/explore/tags/{word}'
         return url
 
@@ -97,51 +96,45 @@ class InstagramCrawler:
     def getComments(self):
         # 모든 키워드 탐색 결과
         response = []
-        for keyword in self.keywords:
-            try:
-                url = self.getUrl(keyword)
-                self.driver.get(url)
-                WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.CLASS_NAME, "Nnq7C"))
-                )
-                self.driver.find_element_by_xpath(
-                    '//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div[1]').click()
-                condition = True
-                while condition:
-                    post = {
-                        "keyword": keyword,
-                        "link": "",
-                        "comments": [],
-                        "date": ""
-                    }
-                    WebDriverWait(self.driver, 10).until(
-                        EC.presence_of_element_located(
-                            (By.CLASS_NAME, "EtaWk"))
-                    )
-                    nextButton = self.driver.find_element_by_xpath(
-                        '/html/body/div[6]/div[1]/div/div/div[2]/button')
-                    html = self.driver.page_source
-                    soup = BeautifulSoup(html, 'html.parser')
-                    comments = soup.select('ul.Mr508 div.C4VMK span')
-                    post["link"] = self.driver.current_url
-                    postTime = self.calcTime(soup.find('time')['datetime'])
-                    post["date"] = '-'.join(postTime)
-                    condition = self.checkTimeValidation(
-                        self.requestTime, list(map(lambda x: int(x), postTime)))
-                    # 댓글 조회
-                    for comment in comments:
-                        print(comment.string)
-                        post["comments"].append(comment.string)
-                    if(len(post["comments"])):
-                        print(post)
-                        response.append(post)
-                    time.sleep(3)
-                    nextButton.click()
-                # 현재 키워드 탐색 결과 추가
-                time.sleep(2)
-            except Exception as error:
-                print(error)
-                self.driver.close()
-                return
-        print(response)
+        url = self.getUrl(self.keyword)
+        self.driver.get(url)
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "Nnq7C"))
+        )
+        self.driver.find_element_by_xpath(
+            '//*[@id="react-root"]/section/main/article/div[2]/div/div[1]/div[1]').click()
+        condition = True
+        while condition:
+            post = {
+                "keyword": self.keyword,
+                "link": "",
+                "comments": [],
+                "date": ""
+            }
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(
+                    (By.CLASS_NAME, "EtaWk"))
+            )
+            nextButton = self.driver.find_element_by_xpath(
+                '/html/body/div[6]/div[1]/div/div/div[2]/button')
+            html = self.driver.page_source
+            soup = BeautifulSoup(html, 'html.parser')
+            comments = soup.select('ul.Mr508 div.C4VMK span')
+            post["link"] = self.driver.current_url
+            postTime = self.calcTime(soup.find('time')['datetime'])
+            post["date"] = '-'.join(postTime)
+            condition = self.checkTimeValidation(
+                self.requestTime, list(map(lambda x: int(x), postTime)))
+            # 댓글 조회
+            for comment in comments:
+                post["comments"].append(comment.string)
+                print(post)
+            if(len(post["comments"])):
+                response.append(post)
+            sleepTime = random.uniform(1, 3)
+            sleepTime = round(sleepTime, 2)
+            time.sleep(sleepTime)
+            nextButton.click()
+        # 현재 키워드 탐색 결과 추가
+        self.driver.close()
         return response
