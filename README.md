@@ -4,7 +4,7 @@
  <h3 align=right>TEAM moreAI</h3>
  </div>
  
- 
+
 ## 📚목차
 1. [📃 Description](#📃-description)
 2. [🌍 Environment](#🌍-environment)
@@ -37,19 +37,20 @@
 
 ### 실시간 SNS 트렌드 분석
 ![실시간 SNS 트렌드 분석](./.readme/1-3.JPG)<br>
-sns 상의 비정형 언어 데이터를 nlp를 통해 분석하여 재난이 어떤 주제들과 연관되어 언급되고 있는지 실시간으로 나타냅니다.
+sns 상의 비정형 언어 데이터를 nlp를 통해 필터링하여 재난과 관련되어 언급되고 있는 내용들을 실시간으로 나타냅니다.
 
 ### 재난 상황 추정 시 이메일 전송
 ![이메일 전송](./.readme/1-4.jpg)<br>
 ![이메일 전송](./.readme/1-4-1.jpg)<br>
 
-특정 재난의 언급량이 급격히 일어날 때, 재난 상황임을 감지하고 메일을 전송합니다.
+특정 키워드의 언급량이 급격히 늘어났을 때, 관리자에게 메일을 전송합니다.<br>
+또한 사용자가 메일을 직접 전송할 수도 있습니다. 
 
 ## 🌍 Environment
 
 * Container: ![도커](https://img.shields.io/badge/docker-blue)
 * proxy sever : ![ngnix](https://img.shields.io/badge/nginx-brightgreen)
-* Language : ![파이썬](https://img.shields.io/badge/python-blue) ![자스](https://img.shields.io/badge/javascript-orange) ![타스](https://img.shields.io/badge/typescript-skyblue)
+* Language : ![파이썬](https://img.shields.io/badge/python-blue) ![자스](https://img.shields.io/badge/javascript-orange) ![타스](https://img.shields.io/badge/typescript-skyblue) ![html](https://img.shields.io/badge/html-red) ![html](https://img.shields.io/badge/css-yellow)
 * Framework : ![Vue](https://img.shields.io/badge/Vue.js-green) ![node](https://img.shields.io/badge/node.js-brightgreen) ![flask](https://img.shields.io/badge/flask-gray)
 * Database:  ![mysql](https://img.shields.io/badge/mysql-8.0-blue) ![mongo](https://img.shields.io/badge/mongo-5.0.3-brightgreen)
 
@@ -57,6 +58,21 @@ sns 상의 비정형 언어 데이터를 nlp를 통해 분석하여 재난이 �
 
 ```
  docker-compose up
+```
+
+### front setup
+```
+npm install
+npm install --save vue-router
+npm install --save vuex
+<!-- vue-chart.js & chart.js -->
+npm install --save chart.js@2.9.4
+<!-- font awesome -->
+npm i --save @fortawesome/fontawesome-svg-core@next
+npm i --save @fortawesome/free-solid-svg-icons@next
+npm i --save @fortawesome/free-regular-svg-icons@next
+npm i --save @fortawesome/free-brands-svg-icons@next
+npm i --save @fortawesome/vue-fontawesome@latest
 ```
 
 ## 🔉 APIs
