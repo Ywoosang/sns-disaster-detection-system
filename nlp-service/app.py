@@ -16,6 +16,7 @@ from util import is_valid_form
 from util import delete_ObjectId
 from util import ping_form
 from flask_cors import CORS
+import random
 
 app = Flask(__name__)
 CORS(app)
@@ -114,7 +115,8 @@ def scheduledTask(number=160,minutes=30):
             elif element['service'] == 'instagram':
                 dataset_instargram.append(element)
         dataset = dataset_twitter + dataset_instargram + dataset_naver
-        trained_dataset = nlp(dataset[0:number],model)
+        dataset = random.sample(dataset,number)
+        trained_dataset = nlp(dataset,model)
         trained_number = len(trained_dataset)
         print('학습된 데이터 개수',trained_number)
         collection = db.post
