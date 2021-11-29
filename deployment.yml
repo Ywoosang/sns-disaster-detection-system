@@ -1,0 +1,139 @@
+version: '3.7'
+services:
+  gateway:
+    image: ywoosang/dashboard-proxy:1.0
+    container_name: gateway
+    depends_on: 
+      - mail-service
+      # - instagram-service 
+      - twitter-service
+      - naver-service
+    ports:
+      - "8080:80"
+    networks: 
+      - sns_disaster_net
+  
+  mail-service:
+    env_file: ./.env
+    image: ywoosang/dashboard-mail:1.0
+    environment:
+      - GMAIL=$GMAIL
+      - GMAIL_PASSWORD=$GMAIL_PASSWORD
+    ports:
+      - "3000:3000"
+    command: ["npm","start"]
+    networks: 
+      - sns_disaster_net
+
+  # instagram-service:
+  #   build:
+  #     context: ./instagram-service
+  #   container_name: instagram-service
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on: 
+  #     - "instagram-database"
+  #   command: [ "python", "-u", "app/server.py" ]
+  #   environment:
+  #     - PYTHONUNBUFFERED=1
+  #   networks: 
+  #     - sns_disaster_net
+
+  twitter-service:
+    env_file: ./.env
+    image: ywoosang/dashboard-twitter:1.0
+    container_name: twitter-service
+    environment: 
+      - TWITTER_TOKEN=$TWITTER_TOKEN
+      - TWITTER_PORT=$TWITTER_PORT
+    ports:
+      - "3002:3002"
+    depends_on: 
+      - "twitter-database"
+    command: ["npm","start"]
+    networks: 
+      - sns_disaster_net
+
+  naver-service:
+    env_file: ./.env
+    image: ywoosang/dashboard-naver:1.0
+    container_name: naver-service
+    environment: 
+      - NAVER_CLIENT=$NAVER_CLIENT
+      - NAVER_CLIENT_SECRET=$NAVER_CLIENT_SECRET
+      - NAVER_PORT=$NAVER_PORT
+    ports:
+      - 3001:3001
+    depends_on: 
+      - "naver-database"
+    command: ["npm","start"]
+    networks: 
+      - sns_disaster_net
+
+  nlp-service:
+    image: ywoosang/dashboard-nlp:1.1
+    container_name: nlp-service
+    ports: 
+      - 5000:5000
+    depends_on:
+      - "nlp-database"
+    command: [ "python","-u","app.py" ]
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks: 
+      - sns_disaster_net
+
+  nlp-database:
+    image: mongo
+    container_name: nlp-db
+    ports: 
+      - "27019:27017"
+    volumes:
+      - ./volumes/nlp_db_volume:/data/db
+    networks: 
+      - sns_disaster_net
+  
+  naver-database:
+    image: mongo
+    container_name: naver-db
+    ports: 
+      - "27018:27017"
+    volumes:
+      - ./volumes/naver_db_volume:/data/db
+    networks: 
+      - sns_disaster_net
+  
+  twitter-database:
+    image: mongo
+    container_name: twitter-db
+    ports: 
+      - "27017:27017"
+    volumes:
+      - ./volumes/twitter_db_volume:/data/db
+    networks: 
+      - sns_disaster_net
+
+  # instagram-database:
+  #   image: mysql:8.0
+  #   container_name: instagram-db
+  #   ports:
+  #     - "3306:3306"
+  #   environment: 
+  #     - MYSQL_ROOT_PASSWORD=1234
+  #   command:
+  #     - --character-set-server=utf8mb4
+  #     - --collation-server=utf8mb4_unicode_ci
+  #   volumes:
+  #     - ./volumes/instagram-db_volume:/var/lib/mysql
+  #     # - ./instagram-database/my.cnf:/etc/mysql/my.cnf
+  #     - ./instagram-database/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+  #   cap_add: 
+  #     - SYS_NICE
+  #   networks: 
+  #     - sns_disaster_net
+
+networks: 
+  sns_disaster_net:
+
+volumes:
+  sns_disaster_volume:
