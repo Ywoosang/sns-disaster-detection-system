@@ -54,7 +54,7 @@
         <flood class="chartLine" />
       </div>
     </div>
-    <div class="item">
+    <div class="item" id="mobile-hide">
       <span>전체</span>
       <div class="chart-wrapper">
         <div class="chartLine-wrapper">
@@ -132,5 +132,19 @@ export default {
   width: 100%;
   height: 100%;
   margin: 15px 0 0 0;
+}
+
+@media (max-width: 767px) {
+  .charts-container {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .charts-container .item {
+    overflow: visible;
+  }
+  #mobile-hide {
+    display: none;
+  }
 }
 </style>

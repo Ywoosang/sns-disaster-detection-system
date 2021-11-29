@@ -68,38 +68,32 @@ export default {
             })
         }
     },
-    deleteSnsData(state,newModelData){
-        state.modelData = newModelData;
-        const maxLen = 50;
-        const newLen = newModelData.length; 
-        const oriLen = state.snsData.length; 
-        const updatedLen = oriLen + newLen;
-        if(oriLen > maxLen || updatedLen > maxLen) {
-            const popLen = updatedLen - maxLen;
-            for(let i=0; i<popLen; i++) {
-                const popData = state.snsData.pop();
-                if (popData.service == 'instagram') {
-                    state.snsInstagram.pop();
-                }
-                else if(popData.service == 'twitter') {
-                    state.snsTwitter.pop();
-                }
-                else {
-                    state.snsNaver.pop();
-                }
-            }
-        }
-    },
     addSnsData(state, data) {
-        state.snsData.unshift(data); 
         if (data.service == 'instagram') {
+            if(state.snsInstagram.length > 100) {
+                state.snsInstagram.pop();
+            }
             state.snsInstagram.unshift(data);
         }
         else if(data.service == 'twitter') {
+            if(state.snsTwitter.length > 100) {
+                state.snsTwitter.pop();
+            }
             state.snsTwitter.unshift(data);
         }
         else {
+            if(state.snsNaver.length > 100) {
+                state.snsNaver.pop();
+            }
             state.snsNaver.unshift(data);
         }
     },
+    updateSnsData(state) {
+        state.snsData = [...state.snsInstagram,...state.snsTwitter,...state.snsNaver];
+        state.snsData.sort(function (a, b) {
+            if (a.date < b.date) return 1;
+            if (a.date > b.date) return -1;
+            if (a.date === b.date) return 0;
+        }); 
+    }
 }

@@ -70,5 +70,10 @@ export default {
     border-radius: 0.3em;
 }
 
- 
+@media (max-width: 767px) {
+    .modal .modal-item{
+        width: 80%;
+        height: 22vh;
+    }
+}
 </style>

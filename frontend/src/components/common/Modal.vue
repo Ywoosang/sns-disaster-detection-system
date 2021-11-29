@@ -113,4 +113,13 @@ export default {
   color: rgba(255, 255, 255, 0.849);
   border-radius: 0.3em;
 }
+
+@media (max-width: 767px) {
+  .modal .modal-item {
+    width: 90%;
+    height: 50vh;
+    z-index: 1001;
+    opacity: none;
+  }
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="home-container">
     <rank/>
-    <time-series/>
-    <sns-message/>   
+    <time-series id="mobile-hide"/>
+    <sns-message id="mobile-hide"/>   
   </div>
 </template>
 
@@ -59,6 +59,26 @@ export default {
   height: 88%;
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 767px) {
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+  }
+  .home-container .item {
+    background-color: #1f2936;
+    padding: 15px 20px;
+    overflow: visible;
+  }
+  .chart-wrapper {
+    flex-direction: column-reverse;  
+    align-items: center;
+  }
+  #mobile-hide {
+    display: none;
+  }
 }
 
 </style>

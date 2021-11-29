@@ -14,14 +14,14 @@
         <li>
           <div class="btn" title="관리자에게 메일 전송" @click="showModal"><font-awesome-icon icon="fa-solid fa-triangle-exclamation" /></div>
         </li>
-        <li>
+        <!-- <li>
           <router-link to='/demo' class='btn' title="소개영상"><font-awesome-icon icon="fa-solid fa-video" /></router-link>
+        </li> -->
+        <li>
+          <router-link to='/settings' class='btn' title="관리자 설정"><font-awesome-icon icon="fa-solid fa-gear" /></router-link>
         </li>
         <li>
           <router-link to='/logs' class='btn' title="Ping test"><font-awesome-icon icon="fa-solid fa-tower-broadcast" /></router-link>
-        </li>
-        <li>
-          <router-link to='/settings' class='btn' title="관리자 설정"><font-awesome-icon icon="fa-solid fa-gear" /></router-link>
         </li>
       </ul>
     </div>
@@ -73,14 +73,16 @@ nav{
   color: #17a9a8;
 }
 
-.redo {
-  margin: 15px auto;
-}
-.redo .redo-button {
-  background-color: transparent;
-  border: 0;
-  outline: 0;
-  font-size: 1.4em;
-  color: rgba(255, 255, 255, 0.479);
+@media (max-width: 767px) {
+  nav {
+    min-width: 0;
+    width: 45px;
+  }
+  .menu {
+    padding: 2px 10px;
+  }
+  .menu ul li .btn {
+    font-size: 1.1em;
+  }
 }
 </style>

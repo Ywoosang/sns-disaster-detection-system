@@ -33,4 +33,15 @@ export default {
     height: 450px;
     background-color: grey;
 }
+
+@media (max-width: 767px) {
+    .video-wrapper {
+        width: 80%;
+        padding: 10px 10px 30px 10px;
+    }
+    .video-wrapper video{
+        width: 100%;
+        height: 100%;
+    }
+}
 </style>

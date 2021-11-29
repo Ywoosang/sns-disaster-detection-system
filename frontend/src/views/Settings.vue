@@ -22,7 +22,6 @@
           v-model="newMailText"
           rows="5"
           cols="30"
-          font
         />
         <button @click="setMailText">설정</button>
       </div>
@@ -97,7 +96,7 @@ export default {
 }
 
 .settings-container input {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   padding-left: 10px;
   padding-right: 10px;
   border: none;
@@ -111,7 +110,7 @@ export default {
 }
 
 .settings-container textarea {
-  font-size: 0.9em;
+  font-size: 0.9rem;
   padding-left: 10px;
   padding-right: 10px;
   border: none;
@@ -130,5 +129,32 @@ export default {
   height: 25px;
   color: rgba(255, 255, 255, 0.849);
   background-color: rgb(39, 60, 87);
+}
+
+@media (max-width: 767px) {
+  .settings-container .content-wrapper {
+    width: 80%;
+    min-width: 0;
+    min-height: 0;
+    padding: 0 20px;
+  }
+  .settings-container button {
+    width: 40px;
+    margin-top: 10px;
+  }
+  .settings-container input {
+    margin-right: 0;
+  }
+  .settings-container textarea {
+    margin-right: 0;
+  }
+  .input-wrapper {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .setting-manager {
+    margin-bottom: 25px !important;
+  }
 }
 </style>

@@ -97,9 +97,9 @@ export default {
   font-size: 0.8em;
 }
 .sns .sns-additional a{
-    color: inherit;
-    text-decoration: none; 
-    outline: none;
+  color: inherit;
+  text-decoration: none; 
+  outline: none;
 }
 .sns-title {
   display: flex;
@@ -109,5 +109,21 @@ export default {
 .sns-keyword {
   font-size:0.9em;
   margin-right: 12px;
+}
+
+@media (max-width: 767px) {
+  .sns-title {
+    display: flex;
+    flex-direction: column;
+  }
+  .sns-service {
+    margin-bottom: 8px;
+  }
+  .sns-keyword {
+    text-align: left !important;
+  }
+  .sns-wrapper {
+    height: 83vh;
+  }
 }
 </style>

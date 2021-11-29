@@ -62,4 +62,26 @@ export default {
 .chartRank .rank-item .name {
   width: 60px;
 }
+
+@media (max-width: 767px) {
+  .chartRank {
+    margin: 0;
+  }
+  .chartBar {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .chartBar-wrapper {
+    height: 30vh;
+    margin-bottom: 10px;
+    margin-left: 0;
+  }
+  .chartRank .rank-item {
+    width: 70%;
+    margin-bottom: 4px;
+  }
+  .chartRank .rank-item .name {
+    width: 60px;
+  }
+}
 </style>

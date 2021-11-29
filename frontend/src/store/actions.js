@@ -13,7 +13,7 @@ export default {
             const origin = 'https://disasterback.cf';
             const query = `?start=${start}&end=${end}`;
             const urls = [
-                // origin + '/api/instagram/data' + query,
+                origin + '/api/instagram/data' +  `?start=2021-11-11-11-11&end=${end}`,
                 origin + '/api/twitter/data' + query,
                 origin + '/api/naver/data' + query
             ]
@@ -52,19 +52,15 @@ export default {
             if (a.date < b.date) return -1;
             if (a.date > b.date) return 1;
             if (a.date === b.date) return 0;
-        });
-        const maxLen = 50;
+        }); 
         const newLen = newModelData.length;
-        let startIndex = 0;
-        if (newLen > maxLen) {
-            startIndex = newLen - maxLen;
-        }
         // const loadTime = getTime / newLen;
-        for (let i = startIndex; i < newLen; i++) {
+        for (let i = 0; i < newLen; i++) {
             // await new Promise(resolve => setTimeout(resolve, loadTime));
             const data = newModelData[i];
             context.commit('addSnsData', data);
         }
+        context.commit('updateSnsData');
     },
     async getNewServerData(context) {
         try {
@@ -76,7 +72,7 @@ export default {
             const origin = 'https://disasterback.cf';
             const query = `?start=${start}&end=${end}`;
             const urls = [
-                // origin + '/api/instagram/data' + query,
+                origin + '/api/instagram/data' + query,
                 origin + '/api/twitter/data' + query,
                 origin + '/api/naver/data' + query
             ]
@@ -121,9 +117,7 @@ export default {
                 if (a.date > b.date) return 1;
                 if (a.date === b.date) return 0;
             });
-            // snsData의 최대 길이에 맞춰 이전 데이터 삭제
-            context.commit('deleteSnsData', newModelData);
-            // 일정 시간 간격으로 snsData 업데이트
+            // snsData 업데이트
             const newLen = newModelData.length;
             // const loadTime = getTime / newLen;
             const loadTime = 0;
@@ -132,6 +126,7 @@ export default {
                 const data = newModelData[i];
                 context.commit('addSnsData', data);
             }
+            context.commit('updateSnsData');
             await new Promise(resolve => setTimeout(resolve, getTime));
         } catch (error) {
             console.log(error)

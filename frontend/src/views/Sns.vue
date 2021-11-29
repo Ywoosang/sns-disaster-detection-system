@@ -1,7 +1,7 @@
 <template>
     <div class="sns-container">
         <!-- 인스타그램 -->
-        <div class="sns-item">
+        <div class="sns-item" id="mobile-hide">
             <span style="color: rgb(248,45,89); font-size: 1em;"><font-awesome-icon icon="fa-brands fa-instagram"/> Instagram</span>
             <div class="sns-wrapper">
                 <div class="sns" v-for="(data, index) in getInstagramData" :key="index">
@@ -11,15 +11,14 @@
                     <div class="sns-content">{{ data.sns }}</div>
                     <div class="sns-additional">
                         <div class="sns-date">{{ data.date }}</div>
-                        <a v-if="data.service=='twitter'" :href="'http://'+data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>
-                        <a v-else :href="data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>
+                        <a :href="data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>  
                     </div>
                     
                 </div>
             </div>
         </div>
         <!-- 트위터 -->
-        <div class="sns-item">
+        <div class="sns-item" id="mobile-hide">
             <span style="color: rgb(28,156,234); font-size: 1em;"><font-awesome-icon icon="fa-brands fa-twitter"/> Twitter</span>
             <div class="sns-wrapper">
                 <div class="sns" v-for="(data, index) in getTwitterData" :key="index">
@@ -29,13 +28,13 @@
                     <div class="sns-content">{{ data.sns }}</div>
                     <div class="sns-additional">
                         <div class="sns-date">{{ data.date }}</div>
-                        <a :href="`${data.link}`" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>                       
+                        <a :href="'http://'+data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>      
                     </div>
                 </div>
             </div>
         </div>
         <!-- 네이버 블로그 -->
-        <div class="sns-item">
+        <div class="sns-item" id="mobile-hide">
             <div style="display: flex; align-items: center;">
                 <img style="width: 15px; margin-right: 6px;" src="../../public/img/naver-icon.png"/>
                 <span style="color: rgb(0,193,58); font-size: 1em; "> Naver Blog</span>    
@@ -49,19 +48,27 @@
                     <div class="sns-content">{{ data.sns }}</div>
                     <div class="sns-additional">
                         <div class="sns-date">{{ data.date }}</div>
-                        <a :href="`${data.link}`" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>                       
+                        <a :href="data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>                       
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- 전체 -->
+        <div class="sns-item" id="mobile-view">
+            <sns-message/>
         </div>
     </div>
 </template>
 
 <script>
+import SnsMessage from '../components/SnsMessage.vue'
 import { mapGetters } from 'vuex';
 
 export default {
     name: 'Sns',
+    components: {
+        SnsMessage
+    },
     computed: {
         ...mapGetters(["getInstagramData", "getTwitterData", "getNaverData"])
     }
@@ -143,5 +150,22 @@ export default {
 .sns-keyword {
     width:100%;
     text-align: right;
+}
+.sns-container #mobile-view {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .sns-container #mobile-view {
+        display: block;
+    }
+    .sns-container {
+        width: 100%;
+        padding: 20px 25px;
+        display: flex;
+    }
+    .sns-container .sns-item {
+        overflow: hidden;
+    }
 }
 </style>
