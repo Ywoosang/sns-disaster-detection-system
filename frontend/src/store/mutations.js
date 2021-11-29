@@ -12,7 +12,6 @@ export default {
         return state.isSendMail = false;
     },
     updateData(state,payload) {
-        console.log('데이터 확인',payload)
         const newCrawlingData = payload.newCrawlingData;
         const date = payload.date;
         // crawlingData 업데이트
@@ -37,7 +36,6 @@ export default {
         const newLineData = [];
         const [hours, minutes] = [date.split('-')[3],date.split('-')[4]];
         const x = `${hours}:${minutes}`;
-        console.log(x);
         counts.forEach((y, index)=>{
             newRankData.push({
                 label: state.keywords[index],

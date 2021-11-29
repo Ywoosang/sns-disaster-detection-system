@@ -14,8 +14,14 @@
         <li>
           <div class="btn" title="관리자에게 메일 전송" @click="showModal"><font-awesome-icon icon="fa-solid fa-triangle-exclamation" /></div>
         </li>
-          <li>
-     <router-link to='/logs' class='btn' title="실시간 sns">핑</router-link>
+        <li>
+          <router-link to='/demo' class='btn' title="소개영상"><font-awesome-icon icon="fa-solid fa-video" /></router-link>
+        </li>
+        <li>
+          <router-link to='/logs' class='btn' title="Ping test"><font-awesome-icon icon="fa-solid fa-tower-broadcast" /></router-link>
+        </li>
+        <li>
+          <router-link to='/settings' class='btn' title="관리자 설정"><font-awesome-icon icon="fa-solid fa-gear" /></router-link>
         </li>
       </ul>
     </div>

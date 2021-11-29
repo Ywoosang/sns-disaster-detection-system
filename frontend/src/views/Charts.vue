@@ -101,19 +101,19 @@ export default {
 .charts-container {
   font-size: 0.9em;
   height: 100%;
-  min-height: 100vh;
   width: 100%;
+  padding: 20px 25px;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  padding: 20px 25px;
   grid-gap: 20px;
 }
 
 .charts-container .item {
   background-color: #1f2936;
   padding: 15px 20px;
+  overflow: hidden;
   box-shadow: 1px 1px 10px 2px #a5def023;
   display: flex;
   flex-direction: column;

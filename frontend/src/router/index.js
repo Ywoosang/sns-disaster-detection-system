@@ -3,6 +3,8 @@ import Charts from '../views/Charts.vue'
 import Sns from '../views/Sns.vue'
 import VueRouter from 'vue-router'
 import Logs from '../views/Logs.vue';
+import Demo from '../views/Demo.vue';
+import Settings from '../views/Settings.vue';
 
 const router = new VueRouter({
     mode: 'history',
@@ -38,15 +40,28 @@ const router = new VueRouter({
             meta: {
                 title: "대시보드 > Logs"
               }
+        },
+        {
+            path: '/demo',
+            component: Demo,
+            meta: {
+                title: "대시보드 > Demo"
+              }
+        },
+        {
+            path: '/settings',
+            component: Settings,
+            meta: {
+                title: "대시보드 > Settings"
+              }
         }
     ]
 })
 
 
-router.afterEach((to, from) => {
+router.afterEach((to) => {
     if(to.meta.title){
       document.title = to.meta.title;
-      console.log(from)
     }
 });
 

@@ -23,7 +23,8 @@
         <div class="sns-content">{{ data.sns }}</div>
         <div class="sns-additional">
           <div class="sns-date">{{ data.date }}</div>
-          <a :href="`${data.link}`" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>
+          <a v-if="data.service=='twitter'" :href="'http://'+data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>
+          <a v-else :href="data.link" target="_blank"><font-awesome-icon icon="fa-solid fa-up-right-from-square" /></a>
         </div>
       </div>
     </div>
