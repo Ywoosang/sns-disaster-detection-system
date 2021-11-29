@@ -115,7 +115,14 @@ def scheduledTask(number=160,minutes=30):
             elif element['service'] == 'instagram':
                 dataset_instargram.append(element)
         dataset = dataset_twitter + dataset_instargram + dataset_naver
-        dataset = random.sample(dataset,number)
+        
+        
+        if len(dataset_instargram) >= int(number/4) and len(dataset_twitter) >= int(number/4) and len(dataset_naver) >= int(number/2) and:
+            dataset = random.sample(dataset_instargram,int(number/4)) + random.sample(dataset_twitter,int(number/4)) + random.sample(dataset_naver,int(number/2))
+        elif len(dataset_twitter) >= int(number/7) and len(dataset_naver) >= int(number/3) and:
+            dataset = random.sample(dataset_twitter,int(number/7)) + random.sample(dataset_naver,int(number/3))
+        else:
+            dataset = random.sample(dataset,number)
         trained_dataset = nlp(dataset,model)
         trained_number = len(trained_dataset)
         print('학습된 데이터 개수',trained_number)
