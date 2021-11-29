@@ -27,12 +27,13 @@ def nlp(data,model): #data는 list, element: dict
   for record in data:
     for ban_word in ban_words:
       if ban_word not in record['content']:
-        data_service.append(record['service'])
-        data_content.append(record['content'])
-        data_date.append(record['date'])
-        data_link.append(record['link'])
-        data_keyword.append(record['keyword'])
-        data_sns.append(record['sns'])
+        if record['content'] not in data_content:
+          data_service.append(record['service'])
+          data_content.append(record['content'])
+          data_date.append(record['date'])
+          data_link.append(record['link'])
+          data_keyword.append(record['keyword'])
+          data_sns.append(record['sns'])
     
 
   data_content_all = ['코로나 신규 확진자가 발생했다.', '화재가 발생했다.', '홍수 피해가 index발생했다.', '사고 났다.', '눈이 많이 내린다.', '산에 불이 났다.', '붕괴 사고가 발생하다.', '폭발하다.', '태풍이 발생했다.']
