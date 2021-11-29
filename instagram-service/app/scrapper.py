@@ -41,7 +41,7 @@ class InstagramCrawler:
             options.add_argument('--disable-dev-shm-usage')
             options.add_argument("disable-gpu")
             options.add_argument(
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36")
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36")
             options.add_argument("lang=ko_KR")
             driver = webdriver.Chrome(chromedriver, options=options)
             driver.get('https://www.instagram.com/accounts/login')
@@ -131,7 +131,7 @@ class InstagramCrawler:
                 print(post)
             if(len(post["comments"])):
                 response.append(post)
-            sleepTime = random.uniform(1, 3)
+            sleepTime = random.uniform(2.5, 3.5)
             sleepTime = round(sleepTime, 2)
             time.sleep(sleepTime)
             nextButton.click()
