@@ -101,7 +101,7 @@ def nlp(data,model): #data는 list, element: dict
         
   data_result = []
   count = 0
-  for index in range(len(data)):
+  for index in range(len(data_content)):
     if len(data_content[index]) != 0:
       data_sentence = ''
       for sentence in data_content[index]:
