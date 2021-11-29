@@ -20,6 +20,6 @@ exports.download = async function(start,end){
              service : doc.service
         }
         response.push(dToj);
-    }    
+    }
     return response;
 }

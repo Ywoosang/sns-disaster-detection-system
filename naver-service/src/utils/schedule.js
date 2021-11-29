@@ -16,7 +16,7 @@ class Scheduler{
                 this.stop();
              }
         )
-        const job = new SimpleIntervalJob({ seconds: 20, }, task)
+        const job = new SimpleIntervalJob({ seconds: 110, }, task)
         this.scheduler.addSimpleIntervalJob(job);
     }
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Scheduler = require('./utils/schedule');
+const cors = require('cors')
 require('dotenv').config();
 
 mongoose.connect('mongodb://naver-db:27017/moai');
@@ -21,6 +22,7 @@ class App{
     }
 
     initializeMiddlewares(){
+        this.app.use(cors())
         this.app.use((error, req, res, next) => {
             console.log(error);
             res.status(200).json({

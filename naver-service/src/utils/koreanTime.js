@@ -8,13 +8,15 @@ class KoreanTime{
     }
 
     getHours(){
-        const hours = this.date.getHours().toString();
-        return hours.lenghth == 1 ? `0${hours}` : hours   
+        const hours_number = this.date.getHours();
+        const hours_string = hours_number.toString();
+        return hours_string.lenghth == 1 ? `0${hours_string}` : hours_string   
     }
 
     getMinutes(){
-        const minutes = this.date.getMinutes().toString();
-        return minutes.lenghth == 1 ? `0${minutes}` : minutes;
+        const minutes_number = this.date.getMinutes()
+        const minutes_string =  minutes_number.toString();
+        return minutes_string.lenghth == 1 ? `0${minutes_string}` : minutes_string;
     }
 }
 

@@ -27,7 +27,8 @@ exports.upload = async function(Class,keyword){
                     console.log(error);
                 }                
             });
-        }     
+        }      
+
     })
     .catch(error => { 
         console.log(error);

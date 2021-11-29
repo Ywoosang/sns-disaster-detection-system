@@ -3,7 +3,7 @@ const keywordFiler = require('../utils/keywordFilter');
 const toDateFormat = require('../utils/toDateFomat');
 const BlogDao = require('../daos/blog.dao');
 const BlogDataDto = require('../dtos/blog.dto');
-const KoreanTime = require('../utils/koreanTime');
+// const KoreanTime = require('../utils/koreanTime');
 const contentUtil = require('../utils/contentUtil');
 require('dotenv').config()
 
@@ -35,8 +35,14 @@ class BlogService{
             const sns = item.title.replace('</b>','').replace('<b>','') +  item.description.replace('</b>','').replace('<b>','')
             const link = item.link;
             // 포맷 변경
-            const koreanTime = new KoreanTime();
-            const date = `${toDateFormat(item.postdate)}-${koreanTime.getHours()}-${koreanTime.getMinutes()}`;
+            // const koreanTime = new KoreanTime();
+            const curr = new Date();
+            const utc = curr.getTime() +  (curr.getTimezoneOffset() * 60 * 1000);
+            const timeDiff = 9 * 60 * 60 * 1000;
+            const krDate =  new Date(utc + (timeDiff));
+            const hours = krDate.getHours().toString().length == 1 ? `0${krDate.getHours().toString()}` : krDate.getHours().toString();
+            const minutes = krDate.getMinutes().toString().length == 1 ? `0${krDate.getMinutes().toString()}` : krDate.getMinutes().toString();
+            const date = `${toDateFormat(item.postdate)}-${hours}-${minutes}`;
             return new BlogDataDto(content,link,date,this.keyword,sns);
         });
     }

@@ -5,9 +5,6 @@ class BlogDao {
     async create(blogData) {
         const isExist = await BlogData.findOne({ 'link': blogData.getLink() });
         if (!isExist) {
-            console.log('-----------------INSERT-------------------')
-            console.log(blogData)
-            console.log('------------------DONE--------------------')
             const newData = new BlogData({
                 service: 'naver',
                 content: blogData.getContent(),

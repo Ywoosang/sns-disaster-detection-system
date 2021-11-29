@@ -15,12 +15,14 @@ class BlogController{
 
     initializeRoutes(){
         this.router.get('/naver/data',this.getBlogData);
+        this.router.get('/naver/ping',this.getRecentData);
     }
 
     async getBlogData(req,res,next){
         try{
             const startDate = req.query.start;
             const endDate = req.query.end;
+            console.log('Naver:Request Received')
             const isDateFormat = dateChecker(startDate) && dateChecker(endDate);
             if(!isDateFormat) return res.status(400).json({
                 message : 'Bad Request'
@@ -29,12 +31,34 @@ class BlogController{
             const response = await BlogData.find()
             .where('date').gt(startDate)
             .where('date').lte(endDate);
+            console.log(`Naver: Response Length ${response.length}`);
             res.json({
-                response
+                'data' : response
             });
         }catch(error){
              next(error)
         }
+    }
+    async getRecentData(req,res,next){
+        try{
+            const dataset = await BlogData.find().sort({ "date" : -1 }).limit(10);
+            const response = [];
+            for(let data of dataset){
+                response.push({
+                    content: data.content,
+                    keyword: data.keyword,
+                    date: data.date,
+                    link: data.link,
+                    service: data.service
+                })
+            }
+            res.json({
+                'data' : response
+            });
+        } catch(error) {
+            next(error)
+        }
+      
     }
     async saveBlogData(){ 
         try{
