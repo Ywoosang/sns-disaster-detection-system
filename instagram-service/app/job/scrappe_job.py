@@ -5,7 +5,7 @@ sys.path.append('..')
 import scrapper
 
 
-def scrappe():
+def scrappe(start_time=None):
     try:
         keywords = [ '교통사고','코로나','화재','폭설']
         # schedule.every(10).minutes.do(getData())
@@ -13,7 +13,7 @@ def scrappe():
         now = timeChecker.localtime()
         index = now.tm_min // 10
         # 크롤링 시작
-        crawler = scrapper.InstagramCrawler(keywords,index)
+        crawler = scrapper.InstagramCrawler(keywords,index,start_time=start_time)
         crawler.run()
     except Exception as e:
         print(e)
