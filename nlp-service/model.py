@@ -4,6 +4,7 @@ from util import clean_text
 import time
 import re
 import numpy as np
+import re
  
 def nlp(data,model): #data는 list, element: dict
   file_path = "fword_list.txt"
@@ -33,7 +34,7 @@ def nlp(data,model): #data는 list, element: dict
           data_date.append(record['date'])
           data_link.append(record['link'])
           data_keyword.append(record['keyword'])
-          data_sns.append(record['sns'])
+          data_sns.append(re.sub('<.*?>', '', record['sns']))
     
 
   data_content_all = ['코로나 신규 확진자가 발생했다.', '화재가 발생했다.', '홍수 피해가 index발생했다.', '사고 났다.', '눈이 많이 내린다.', '산에 불이 났다.', '붕괴 사고가 발생하다.', '폭발하다.', '태풍이 발생했다.']
