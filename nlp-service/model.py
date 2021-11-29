@@ -8,11 +8,16 @@ import re
  
 def nlp(data,model): #data는 list, element: dict
   file_path = "fword_list.txt"
+  file2_path = "ffword_list.txt"
 
   with open(file_path) as f:
       ban_words = f.readlines()
+    
+  with open(file2_path) as f:
+      filter_words = f.readlines()
 
   ban_words = [line.rstrip('\n') for line in ban_words]
+  filter_words = [line.rstrip('\n') for line in filter_words]
 
   start = time.time()
   if len(data) <= 20:
@@ -34,10 +39,18 @@ def nlp(data,model): #data는 list, element: dict
           data_date.append(record['date'])
           data_link.append(record['link'])
           data_keyword.append(record['keyword'])
+          filter = []
+          for filter_word in filter_words:
+            if filter_word in record['sns']:
+              filter.append(filter_word)
+              
+          for filter_ in filter:
+            record['sns'] = record['sns'].replace(filter_, len(filter_) * '*')
           data_sns.append(re.sub('<.*?>', '', record['sns']))
+          
     
 
-  data_content_all = ['코로나 신규 확진자가 발생했다.', '화재가 발생했다.', '홍수 피해가 index발생했다.', '사고 났다.', '눈이 많이 내린다.', '산에 불이 났다.', '붕괴 사고가 발생하다.', '폭발하다.', '태풍이 발생했다.']
+  data_content_all = ['코로나 신규 확진자가 발생했다.', '화재가 발생했다.', '홍수 피해가 발생했다.', '사고 났다.', '눈이 많이 내린다.', '산에 불이 났다.', '붕괴 사고가 발생하다.', '폭발하다.', '태풍이 발생했다.']
   data_pre = len(data_content_all)
 
   for index in range(len(data_content)):
