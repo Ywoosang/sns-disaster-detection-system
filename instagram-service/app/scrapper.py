@@ -1,11 +1,10 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import time 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import chromedriver_autoinstaller
-import subprocess
 
 
 import time
@@ -23,57 +22,42 @@ class InstagramCrawler:
         """
         스크래핑 시작
         """
-        try:
-            self.setDriver()
-            response = self.getComments()
-            return response
-        except Exception as error:
-            print(error)
-            raise Exception(f'Scrapping Error')
+        self.setDriver()
+        response = self.getComments()
+        return response
+        
 
     def setDriver(self):
         """
         로그인 상태의 드라이버 생성
         """
-        try:
-            time.sleep(2)
-
-            subprocess.Popen(f"/home/ywoosang/바탕화면/개인공부/오픈소스/SNS-Disaster-Detection-System/instagram-service/app/chromedriver") # 디버거 크롬 구동
-            options = Options()
-            options.add_argument('--start-fullscreen')
-            options.add_argument('window-size=1920x1080') 
-            options.add_argument("disable-gpu")
-            options.add_argument('--start-fullscreen')
-            options.add_argument('--no-sandbox')
-            options.add_argument('--disable-dev-shm-usage')
-            options.add_argument(
-                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36")
-            # option.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-            chrome_ver = chromedriver_autoinstaller.get_chrome_version().split('.')[0]
-            try:
-                driver = webdriver.Chrome(f'./{chrome_ver}/chromedriver', options=options)
-            except:
-                chromedriver_autoinstaller.install(True)
-                driver = webdriver.Chrome(f'./{chrome_ver}/chromedriver', options=options)
-            driver.get('https://www.instagram.com/accounts/login')
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
-            )
-            time.sleep(1)
-            id_section = driver.find_element_by_name('username')
-            id_section.clear()
-            time.sleep(1)
-            id_section.send_keys('test_ywoosang')
-            pw_section = driver.find_element_by_name('password')
-            pw_section.clear()
-            pw_section.send_keys('test1234')
-            time.sleep(1)
-            driver.find_element_by_xpath('//*[@id="loginForm"]/div/div[3]').click()
-            self.driver = driver
-        except Exception as error:
-            print(error)            
-            pass
-
+        time.sleep(2)
+        
+        options = Options()
+        options.add_argument('--start-fullscreen')
+        options.add_argument('window-size=1920x1080') 
+        options.add_argument("disable-gpu")
+        options.add_argument('--start-fullscreen')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('user-agent=Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36')
+        driver = webdriver.Chrome('/home/ywoosang/바탕화면/개인공부/오픈소스/SNS-Disaster-Detection-System/instagram-service/app/chromedriver',options=options)
+        driver.get('https://www.instagram.com/?hl=ko')
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "rgFsT"))
+        )
+        time.sleep(1)
+        id_section = driver.find_element_by_name('username')
+        id_section.clear()
+        time.sleep(1)
+        id_section.send_keys('test_ywoosang')
+        pw_section = driver.find_element_by_name('password')
+        pw_section.clear()
+        pw_section.send_keys('test1234')
+        time.sleep(1)
+        driver.find_element_by_xpath('//*[@id="loginForm"]/div/div[3]').click()
+        self.driver = driver
+ 
     def getUrl(self, word):
         """
         검색 키워드로 url 생성
