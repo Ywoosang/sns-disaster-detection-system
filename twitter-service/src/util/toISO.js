@@ -12,7 +12,6 @@ exports.toISO = function (arr){
 
 exports.toArr = function(iso){
     var res = [];
-    
     var ti = new Date(iso)
     res.push(ti.getFullYear().toString())
     var month = (ti.getUTCMonth()+1).toString()
@@ -35,6 +34,12 @@ exports.toArr = function(iso){
     res.push(dte)
     res.push(hur)
     res.push(mnt)
+    var res_str=res[0]+"-"+res[1]+"-"+res[2]+"-"+res[3]+"-"+res[4]
+    return res_str;
+
+}
+
+exports.ArrtoStr = function(res){
     var res_str=res[0]+"-"+res[1]+"-"+res[2]+"-"+res[3]+"-"+res[4]
     return res_str;
 
