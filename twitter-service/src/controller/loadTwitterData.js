@@ -2,7 +2,7 @@ const twitterService= require('../services/twitter.service');
 const twitterData = require('../model/twitter.model')
 const mongoose = require('mongoose');
 const mongodb = require('../util/mongodb')
-const toISO = require('../util/toISO');
+const timeutil = require('../util/time');
 const db = mongodb.dbsetting(()=>{});
 
 exports.upload = async function(Class,keyword){
@@ -17,7 +17,7 @@ exports.upload = async function(Class,keyword){
                 'sns' : res[i][0],
                 'content' : res[i][0].replace(regExp,""),
                 'link' : res[i][1],
-                'date' : toISO.toArr(res[i][2]),
+                'date' : timeutil.toArr(res[i][2]),
                 'keyword': Class,
                 'service': 'twitter'
             });               
