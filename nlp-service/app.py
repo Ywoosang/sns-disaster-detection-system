@@ -117,9 +117,9 @@ def scheduledTask(number=160,minutes=30):
         dataset = dataset_twitter + dataset_instargram + dataset_naver
         
         if len(dataset) > number:
-            if len(dataset_instargram) >= int(number/4) and len(dataset_twitter) >= int(number/4) and len(dataset_naver) >= int(number/2) and:
+            if len(dataset_instargram) >= int(number/4) and len(dataset_twitter) >= int(number/4) and len(dataset_naver) >= int(number/2):
                 dataset = random.sample(dataset_instargram,int(number/4)) + random.sample(dataset_twitter,int(number/4)) + random.sample(dataset_naver,int(number/2))
-            elif len(dataset_twitter) >= int(number/7) and len(dataset_naver) >= int(number/3) and:
+            elif len(dataset_twitter) >= int(number/7) and len(dataset_naver) >= int(number/3):
                 dataset = random.sample(dataset_twitter,int(number/7)) + random.sample(dataset_naver,int(number/3))
             else:
                 dataset = random.sample(dataset,number)
